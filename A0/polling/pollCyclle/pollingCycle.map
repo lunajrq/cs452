@@ -1,0 +1,70 @@
+Archive member included because of file (symbol)
+
+../lib/libbaseIO.a(baseIO.o)  pollingCycle.o (baseIOBootstrap)
+../lib/libtimer.a(timer.o)    pollingCycle.o (timerBootstrap)
+
+Memory Configuration
+
+Name             Origin             Length             Attributes
+ram              0x0000000000000000 0x0000000002000000
+rom              0x0000000060000000 0x0000000000800000
+*default*        0x0000000000000000 0xffffffffffffffff
+
+Linker script and memory map
+
+
+data            0x0000000000000000        0x0
+                0x0000000000000000                _DataStart = .
+ *(.data)
+                0x0000000000000000                _DataEnd = .
+
+bss             0x0000000000000000       0x14
+                0x0000000000000000                _BssStart = .
+ *(.bss)
+ .bss           0x0000000000000000        0x8 ../lib/libbaseIO.a(baseIO.o)
+                0x0000000000000004                COM2IO
+                0x0000000000000000                COM1IO
+ .bss           0x0000000000000008        0xc ../lib/libtimer.a(timer.o)
+                0x000000000000000c                _then
+                0x0000000000000010                _now
+                0x0000000000000008                _timerTick
+                0x0000000000000014                _BssEnd = .
+
+text            0x0000000000000014      0x9dc
+ *(.text)
+ .text          0x0000000000000014      0x11c pollingCycle.o
+                0x0000000000000014                main
+ .text          0x0000000000000130      0x734 ../lib/libbaseIO.a(baseIO.o)
+                0x0000000000000608                readChar
+                0x0000000000000130                baseIOsetfifo
+                0x00000000000001f8                baseIOBootstrap
+                0x0000000000000430                getBaseIO
+                0x0000000000000564                writeStr
+                0x00000000000004b0                writeChar
+                0x00000000000006bc                buffer2port
+                0x000000000000078c                port2buffer
+ .text          0x0000000000000864      0x15c ../lib/libtimer.a(timer.o)
+                0x00000000000008c4                getTimerTick
+                0x0000000000000990                getTime
+                0x0000000000000864                timerBootstrap
+ *(.got)
+ .got           0x00000000000009c0       0x14 pollingCycle.o
+ *(.got.plt)
+ .got.plt       0x00000000000009d4        0xc pollingCycle.o
+                0x00000000000009d4                _GLOBAL_OFFSET_TABLE_
+ *(.rodata)
+ .rodata        0x00000000000009e0       0x10 pollingCycle.o
+ *(.glue_7)
+ *(.glue_7t)
+
+.rel.dyn
+LOAD pollingCycle.o
+LOAD ../lib/libbaseIO.a
+LOAD ../lib/libtimer.a
+LOAD /u/wbcowan/gnuarm-4.0.2/lib/gcc/arm-elf/4.0.2/libgcc.a
+OUTPUT(pollingCycle.elf elf32-littlearm)
+
+.comment        0x0000000000000000       0x36
+ .comment       0x0000000000000000       0x12 pollingCycle.o
+ .comment       0x0000000000000012       0x12 ../lib/libbaseIO.a(baseIO.o)
+ .comment       0x0000000000000024       0x12 ../lib/libtimer.a(timer.o)

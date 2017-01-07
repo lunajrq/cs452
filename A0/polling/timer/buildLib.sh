@@ -1,0 +1,1 @@
+make clean; make; cp ./timer.a ../lib/libtimer.a
