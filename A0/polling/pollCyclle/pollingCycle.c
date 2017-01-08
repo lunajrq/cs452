@@ -5,6 +5,8 @@
 #include <baseIO.h>
 #include <timer.h>
 #include <ts7200.h>
+#include <cursorAddressing.h>
+#include <UI.h>
 
 #define FOREVER	for(;;)
 
@@ -13,22 +15,21 @@ int main( int argc, char* argv[] ) {
 	struct BaseIO COM2IO;
 	baseIOBootstrap(&COM1IO, &COM2IO);
 	timerBootstrap();
+	baseIOprintf(&COM2IO, "%c[2J",IO_ESC);
 
-	writeStr(&COM2IO, "Hello, world!");
-	char c;
-	int timer;
+	struct UI ui;
+	initUI(&ui, &COM2IO);
+
 
 	FOREVER {
 		if(getTimerTick() == 1) {
-			timer = getTime();
-			writeChar(&COM2IO, '0' + timer);
+			continue;
 		}
 
-		buffer2port(&COM2IO);
-		port2buffer(&COM2IO);
-		if(readChar(&COM2IO, &c) != -1) {
-			writeChar(&COM2IO, c);
-		}
+		if(buffer2port(&COM2IO) == 1) continue;
+		if(port2buffer(&COM2IO) == 1) continue;
+
+		UIHeartBeat(&ui);
 	}
 
 	return 0;

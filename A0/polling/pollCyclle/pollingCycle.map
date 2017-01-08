@@ -2,6 +2,16 @@ Archive member included because of file (symbol)
 
 ../lib/libbaseIO.a(baseIO.o)  pollingCycle.o (baseIOBootstrap)
 ../lib/libtimer.a(timer.o)    pollingCycle.o (timerBootstrap)
+../lib/libUI.a(UI.o)          pollingCycle.o (initUI)
+../lib/libcommandPrompt.a(commandPrompt.o)
+                              ../lib/libUI.a(UI.o) (initCommandPrompt)
+../lib/libclock.a(clock.o)    ../lib/libUI.a(UI.o) (initClock)
+/u/wbcowan/gnuarm-4.0.2/lib/gcc/arm-elf/4.0.2/libgcc.a(_udivsi3.o)
+                              ../lib/libbaseIO.a(baseIO.o) (__udivsi3)
+/u/wbcowan/gnuarm-4.0.2/lib/gcc/arm-elf/4.0.2/libgcc.a(_umodsi3.o)
+                              ../lib/libbaseIO.a(baseIO.o) (__umodsi3)
+/u/wbcowan/gnuarm-4.0.2/lib/gcc/arm-elf/4.0.2/libgcc.a(_dvmd_tls.o)
+                              /u/wbcowan/gnuarm-4.0.2/lib/gcc/arm-elf/4.0.2/libgcc.a(_udivsi3.o) (__div0)
 
 Memory Configuration
 
@@ -30,30 +40,64 @@ bss             0x0000000000000000       0x14
                 0x0000000000000008                _timerTick
                 0x0000000000000014                _BssEnd = .
 
-text            0x0000000000000014      0x9dc
+text            0x0000000000000014     0x19d4
  *(.text)
- .text          0x0000000000000014      0x11c pollingCycle.o
+ .text          0x0000000000000014       0xe4 pollingCycle.o
                 0x0000000000000014                main
- .text          0x0000000000000130      0x734 ../lib/libbaseIO.a(baseIO.o)
-                0x0000000000000608                readChar
-                0x0000000000000130                baseIOsetfifo
-                0x00000000000001f8                baseIOBootstrap
-                0x0000000000000430                getBaseIO
-                0x0000000000000564                writeStr
-                0x00000000000004b0                writeChar
-                0x00000000000006bc                buffer2port
-                0x000000000000078c                port2buffer
- .text          0x0000000000000864      0x15c ../lib/libtimer.a(timer.o)
-                0x00000000000008c4                getTimerTick
-                0x0000000000000990                getTime
-                0x0000000000000864                timerBootstrap
+ .text          0x00000000000000f8     0x1038 ../lib/libbaseIO.a(baseIO.o)
+                0x00000000000005d0                readChar
+                0x00000000000000f8                baseIOsetfifo
+                0x0000000000000e24                baseIOformat
+                0x0000000000000bb8                baseIOa2i
+                0x00000000000001c0                baseIOBootstrap
+                0x0000000000000dc0                baseIOi2a
+                0x000000000000090c                baseIOputr
+                0x00000000000003f8                getBaseIO
+                0x000000000000088c                baseIOputx
+                0x000000000000052c                writeStr
+                0x00000000000010f8                baseIOprintf
+                0x0000000000000b10                baseIOa2d
+                0x000000000000098c                baseIOputstr
+                0x000000000000082c                c2x
+                0x0000000000000478                writeChar
+                0x0000000000000a08                baseIOputw
+                0x0000000000000684                buffer2port
+                0x0000000000000754                port2buffer
+                0x0000000000000c7c                baseIOui2a
+ .text          0x0000000000001130      0x180 ../lib/libtimer.a(timer.o)
+                0x00000000000011b4                getTimerTick
+                0x0000000000001280                getTime
+                0x0000000000001130                timerBootstrap
+ .text          0x00000000000012b0       0xd8 ../lib/libUI.a(UI.o)
+                0x0000000000001314                UIHeartBeat
+                0x00000000000012b0                initUI
+ .text          0x0000000000001388      0x308 ../lib/libcommandPrompt.a(commandPrompt.o)
+                0x0000000000001618                repositionCursor
+                0x000000000000143c                initCommandPrompt
+                0x0000000000001520                commandPromptHeartBeat
+                0x0000000000001388                initCommandStr
+                0x00000000000013c4                commandStrPush
+ .text          0x0000000000001690      0x128 ../lib/libclock.a(clock.o)
+                0x00000000000016e8                clockHeartBeat
+                0x0000000000001690                initClock
+ .text          0x00000000000017b8      0x110 /u/wbcowan/gnuarm-4.0.2/lib/gcc/arm-elf/4.0.2/libgcc.a(_udivsi3.o)
+                0x00000000000017b8                __udivsi3
+                0x00000000000018b0                __aeabi_uidivmod
+ .text          0x00000000000018c8       0xcc /u/wbcowan/gnuarm-4.0.2/lib/gcc/arm-elf/4.0.2/libgcc.a(_umodsi3.o)
+                0x00000000000018c8                __umodsi3
+ .text          0x0000000000001994        0x4 /u/wbcowan/gnuarm-4.0.2/lib/gcc/arm-elf/4.0.2/libgcc.a(_dvmd_tls.o)
+                0x0000000000001994                __aeabi_ldiv0
+                0x0000000000001994                __div0
+                0x0000000000001994                __aeabi_idiv0
  *(.got)
- .got           0x00000000000009c0       0x14 pollingCycle.o
+ .got           0x0000000000001998       0x14 pollingCycle.o
  *(.got.plt)
- .got.plt       0x00000000000009d4        0xc pollingCycle.o
-                0x00000000000009d4                _GLOBAL_OFFSET_TABLE_
+ .got.plt       0x00000000000019ac        0xc pollingCycle.o
+                0x00000000000019ac                _GLOBAL_OFFSET_TABLE_
  *(.rodata)
- .rodata        0x00000000000009e0       0x10 pollingCycle.o
+ .rodata        0x00000000000019b8        0x8 pollingCycle.o
+ .rodata        0x00000000000019c0       0x10 ../lib/libcommandPrompt.a(commandPrompt.o)
+ .rodata        0x00000000000019d0       0x18 ../lib/libclock.a(clock.o)
  *(.glue_7)
  *(.glue_7t)
 
@@ -61,10 +105,39 @@ text            0x0000000000000014      0x9dc
 LOAD pollingCycle.o
 LOAD ../lib/libbaseIO.a
 LOAD ../lib/libtimer.a
+LOAD ../lib/libUI.a
+LOAD ../lib/libcommandPrompt.a
+LOAD ../lib/libclock.a
 LOAD /u/wbcowan/gnuarm-4.0.2/lib/gcc/arm-elf/4.0.2/libgcc.a
 OUTPUT(pollingCycle.elf elf32-littlearm)
 
-.comment        0x0000000000000000       0x36
+.comment        0x0000000000000000       0x6c
  .comment       0x0000000000000000       0x12 pollingCycle.o
  .comment       0x0000000000000012       0x12 ../lib/libbaseIO.a(baseIO.o)
  .comment       0x0000000000000024       0x12 ../lib/libtimer.a(timer.o)
+ .comment       0x0000000000000036       0x12 ../lib/libUI.a(UI.o)
+ .comment       0x0000000000000048       0x12 ../lib/libcommandPrompt.a(commandPrompt.o)
+ .comment       0x000000000000005a       0x12 ../lib/libclock.a(clock.o)
+
+.debug_line     0x0000000000000000      0x14f
+ .debug_line    0x0000000000000000       0x86 /u/wbcowan/gnuarm-4.0.2/lib/gcc/arm-elf/4.0.2/libgcc.a(_udivsi3.o)
+ .debug_line    0x0000000000000086       0x6f /u/wbcowan/gnuarm-4.0.2/lib/gcc/arm-elf/4.0.2/libgcc.a(_umodsi3.o)
+ .debug_line    0x00000000000000f5       0x5a /u/wbcowan/gnuarm-4.0.2/lib/gcc/arm-elf/4.0.2/libgcc.a(_dvmd_tls.o)
+
+.debug_info     0x0000000000000000      0x153
+ .debug_info    0x0000000000000000       0x71 /u/wbcowan/gnuarm-4.0.2/lib/gcc/arm-elf/4.0.2/libgcc.a(_udivsi3.o)
+ .debug_info    0x0000000000000071       0x71 /u/wbcowan/gnuarm-4.0.2/lib/gcc/arm-elf/4.0.2/libgcc.a(_umodsi3.o)
+ .debug_info    0x00000000000000e2       0x71 /u/wbcowan/gnuarm-4.0.2/lib/gcc/arm-elf/4.0.2/libgcc.a(_dvmd_tls.o)
+
+.debug_abbrev   0x0000000000000000       0x3c
+ .debug_abbrev  0x0000000000000000       0x14 /u/wbcowan/gnuarm-4.0.2/lib/gcc/arm-elf/4.0.2/libgcc.a(_udivsi3.o)
+ .debug_abbrev  0x0000000000000014       0x14 /u/wbcowan/gnuarm-4.0.2/lib/gcc/arm-elf/4.0.2/libgcc.a(_umodsi3.o)
+ .debug_abbrev  0x0000000000000028       0x14 /u/wbcowan/gnuarm-4.0.2/lib/gcc/arm-elf/4.0.2/libgcc.a(_dvmd_tls.o)
+
+.debug_aranges  0x0000000000000000       0x60
+ .debug_aranges
+                0x0000000000000000       0x20 /u/wbcowan/gnuarm-4.0.2/lib/gcc/arm-elf/4.0.2/libgcc.a(_udivsi3.o)
+ .debug_aranges
+                0x0000000000000020       0x20 /u/wbcowan/gnuarm-4.0.2/lib/gcc/arm-elf/4.0.2/libgcc.a(_umodsi3.o)
+ .debug_aranges
+                0x0000000000000040       0x20 /u/wbcowan/gnuarm-4.0.2/lib/gcc/arm-elf/4.0.2/libgcc.a(_dvmd_tls.o)

@@ -2,7 +2,7 @@
 #include <ts7200.h>
 
 
-unsigned int _timerTick = 0;
+int _timerTick = 0;
 unsigned int _then = 0;
 unsigned int _now = 0;
 
@@ -16,9 +16,11 @@ void timerBootstrap() {
 	// Using periodic mode
 	*((unsigned int *)(TIMER3_BASE + CRTL_OFFSET)) = *((unsigned int *)(TIMER3_BASE + CRTL_OFFSET)) | MODE_MASK;
 	// Using  2kHz
-	*((unsigned int *)(TIMER3_BASE + CRTL_OFFSET)) = *((unsigned int *)(TIMER3_BASE + CRTL_OFFSET)) & (~CLKSEL_MASK);
+	*((unsigned int *)(TIMER3_BASE + CRTL_OFFSET)) = *((unsigned int *)(TIMER3_BASE + CRTL_OFFSET)) | CLKSEL_MASK;
 	// Start the timer
 	*((unsigned int *)(TIMER3_BASE + CRTL_OFFSET)) = *((unsigned int *)(TIMER3_BASE + CRTL_OFFSET)) | ENABLE_MASK;
+
+	_timerTick = 0;
 }
 
 // for loop get time from register

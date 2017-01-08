@@ -1,9 +1,10 @@
+#pragma once
 
 /*
  * Using Timer3
  * 2kHz, periodic mode
  */
-#define CLOCK_FREQUENCY 2000
+#define CLOCK_FREQUENCY 508000
 
 
 

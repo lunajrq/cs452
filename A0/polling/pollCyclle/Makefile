@@ -25,7 +25,7 @@ pollingCycle.o: pollingCycle.s
 	$(AS) $(ASFLAGS) -o pollingCycle.o pollingCycle.s
 
 pollingCycle.elf: pollingCycle.o
-	$(LD) $(LDFLAGS) -o $@ pollingCycle.o -lbaseIO -ltimer -lgcc
+	$(LD) $(LDFLAGS) -o $@ pollingCycle.o -lbaseIO -ltimer -lUI -lcommandPrompt -lclock -lgcc
 
 clean:
 	-rm -f pollingCycle.elf *.s *.o pollingCycle.map
