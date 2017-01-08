@@ -4,8 +4,8 @@
 #include <baseIO.h>
 
 
-#define COMMAND_LINE_LIMIT 20
-#define COMMAND_HISTORY_SIZE 10
+#define COMMAND_LINE_LIMIT 30
+#define COMMAND_HISTORY_SIZE 1
 
 struct CommandStr {
 	int currentCursor;
