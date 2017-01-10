@@ -1,1 +1,0 @@
-make clean; make; cp ./baseIO.a ../lib/libbaseIO.a

@@ -32,24 +32,24 @@ timerBootstrap:
 .L3:
 	add	sl, pc, sl
 	ldr	r2, .L4+4
-	ldr	r3, .L4+8
+	mov	r3, #508
 	str	r3, [r2, #0]
-	ldr	r2, .L4+12
-	ldr	r3, .L4+12
+	ldr	r2, .L4+8
+	ldr	r3, .L4+8
 	ldr	r3, [r3, #0]
 	orr	r3, r3, #64
 	str	r3, [r2, #0]
-	ldr	r2, .L4+12
-	ldr	r3, .L4+12
+	ldr	r2, .L4+8
+	ldr	r3, .L4+8
 	ldr	r3, [r3, #0]
 	orr	r3, r3, #8
 	str	r3, [r2, #0]
-	ldr	r2, .L4+12
-	ldr	r3, .L4+12
+	ldr	r2, .L4+8
+	ldr	r3, .L4+8
 	ldr	r3, [r3, #0]
 	orr	r3, r3, #128
 	str	r3, [r2, #0]
-	ldr	r3, .L4+16
+	ldr	r3, .L4+12
 	ldr	r2, [sl, r3]
 	mov	r3, #0
 	str	r3, [r2, #0]
@@ -59,7 +59,6 @@ timerBootstrap:
 .L4:
 	.word	_GLOBAL_OFFSET_TABLE_-(.L3+8)
 	.word	-2139029376
-	.word	508000
 	.word	-2139029368
 	.word	_timerTick(GOT)
 	.size	timerBootstrap, .-timerBootstrap

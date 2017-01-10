@@ -27,6 +27,7 @@ timer.o: timer.s
 
 timer.a: timer.o
 	$(AR) $(ARFLAGS) $@ timer.o
+	-cp ./timer.a ../lib/libtimer.a
 
 
 clean:

@@ -2,7 +2,7 @@
 #include <ts7200.h>
 
 
-int _timerTick = 0;
+unsigned int _timerTick = 0;
 unsigned int _then = 0;
 unsigned int _now = 0;
 
@@ -37,6 +37,6 @@ int getTimerTick() {
 }
 
 // for user get time in second
-int getTime() {
+unsigned int getTime() {
 	return _timerTick;
 }

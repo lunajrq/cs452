@@ -1,6 +1,7 @@
 #include <commandPrompt.h>
 #include <baseIO.h>
 #include <cursorAddressing.h>
+#include <commandHandler.h>
 
 void initCommandStr(struct CommandStr *commandStr) {
 	commandStr->currentCursor = 0;
@@ -39,19 +40,24 @@ int commandPromptHeartBeat(struct CommandPrompt *cp) {
 		return 0;
 	}
 
-	if(c == '\n') {
+	if(c == '\r') {
 		// copy string out
+		commandHandlerSetCommand(getCommandHandler(), cp->currentCommand->str);
+		
+		IO_POS(cp->baseIO, cp->top, cp->left + 2);
+		int i = 0;
+		for(;i < cp->currentCommand->length; i++) writeChar(cp->baseIO, ' ');
 		initCommandStr(cp->currentCommand);
 		return 1;
 	} else if(c == '\b') {
 		commandStrPop(cp->currentCommand);
-		IO_POS(cp->baseIO, cp->top, cp->left + cp->currentCommand->length);
+		IO_POS(cp->baseIO, cp->top, cp->left + cp->currentCommand->length + 2);
 		writeChar(cp->baseIO, ' ');
 		return 1;
 	} else {
 		commandStrPush(cp->currentCommand, c);
 
-		IO_POS(cp->baseIO, cp->top, cp->left + cp->currentCommand->length - 1);
+		IO_POS(cp->baseIO, cp->top, cp->left + cp->currentCommand->length + 1);
 		writeChar(cp->baseIO, cp->currentCommand->str[cp->currentCommand->length - 1]);
 
 		return 1;

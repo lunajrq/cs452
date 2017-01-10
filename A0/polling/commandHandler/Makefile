@@ -17,17 +17,18 @@ ASFLAGS	= -mcpu=arm920t -mapcs-32
 
 ARFLAGS = rcs
 
-all:  baseIO.a 
+all:  commandHandler.a 
 
-baseIO.s: baseIO.c 
-	$(XCC) -S $(CFLAGS) baseIO.c
+commandHandler.s: commandHandler.c 
+	$(XCC) -S $(CFLAGS) commandHandler.c
 
-baseIO.o: baseIO.s
-	$(AS) $(ASFLAGS) -o baseIO.o baseIO.s
+commandHandler.o: commandHandler.s
+	$(AS) $(ASFLAGS) -o commandHandler.o commandHandler.s
 
-baseIO.a: baseIO.o
-	$(AR) $(ARFLAGS) $@ baseIO.o
-	-cp ./baseIO.a ../lib/libbaseIO.a
+commandHandler.a: commandHandler.o
+	$(AR) $(ARFLAGS) $@ commandHandler.o
+	-cp ./commandHandler.a ../lib/libcommandHandler.a
+
 
 clean:
 	-rm -f *.s *.a *.o

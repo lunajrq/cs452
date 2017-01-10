@@ -17,7 +17,7 @@ ASFLAGS	= -mcpu=arm920t -mapcs-32
 
 ARFLAGS = rcs
 
-all:  commandPrompt.a clock.a UI.a
+all:  commandPrompt.a clock.a UI.a switchTable.a sensorHistory.a
 
 commandPrompt.s: commandPrompt.c 
 	$(XCC) -S $(CFLAGS) commandPrompt.c
@@ -50,6 +50,28 @@ UI.o: UI.s
 UI.a: UI.o
 	$(AR) $(ARFLAGS) $@ UI.o
 	-cp ./UI.a ../lib/libUI.a
+
+
+switchTable.s: switchTable.c 
+	$(XCC) -S $(CFLAGS) switchTable.c
+
+switchTable.o: switchTable.s
+	$(AS) $(ASFLAGS) -o switchTable.o switchTable.s
+
+switchTable.a: switchTable.o
+	$(AR) $(ARFLAGS) $@ switchTable.o
+	-cp ./switchTable.a ../lib/libswitchTable.a
+
+
+sensorHistory.s: sensorHistory.c 
+	$(XCC) -S $(CFLAGS) sensorHistory.c
+
+sensorHistory.o: sensorHistory.s
+	$(AS) $(ASFLAGS) -o sensorHistory.o sensorHistory.s
+
+sensorHistory.a: sensorHistory.o
+	$(AR) $(ARFLAGS) $@ switchTable.o
+	-cp ./sensorHistory.a ../lib/libsensorHistory.a
 
 clean:
 	-rm -f *.s *.a *.o

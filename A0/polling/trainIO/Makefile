@@ -17,17 +17,18 @@ ASFLAGS	= -mcpu=arm920t -mapcs-32
 
 ARFLAGS = rcs
 
-all:  baseIO.a 
+all:  trainIO.a 
 
-baseIO.s: baseIO.c 
-	$(XCC) -S $(CFLAGS) baseIO.c
+trainIO.s: trainIO.c 
+	$(XCC) -S $(CFLAGS) trainIO.c
 
-baseIO.o: baseIO.s
-	$(AS) $(ASFLAGS) -o baseIO.o baseIO.s
+trainIO.o: trainIO.s
+	$(AS) $(ASFLAGS) -o trainIO.o trainIO.s
 
-baseIO.a: baseIO.o
-	$(AR) $(ARFLAGS) $@ baseIO.o
-	-cp ./baseIO.a ../lib/libbaseIO.a
+trainIO.a: trainIO.o
+	$(AR) $(ARFLAGS) $@ trainIO.o
+	-cp ./trainIO.a ../lib/libtrainIO.a
+
 
 clean:
 	-rm -f *.s *.a *.o

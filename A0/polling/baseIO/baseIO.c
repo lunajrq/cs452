@@ -30,11 +30,50 @@ int baseIOsetfifo( int channel, int state ) {
 	return 0;
 }
 
+int baseIOsetspeed( int channel, int speed ) {
+	int *high, *low;
+	switch( channel ) {
+	case COM1:
+		high = (int *)( UART1_BASE + UART_LCRM_OFFSET );
+		low = (int *)( UART1_BASE + UART_LCRL_OFFSET );
+	        break;
+	case COM2:
+		high = (int *)( UART2_BASE + UART_LCRM_OFFSET );
+		low = (int *)( UART2_BASE + UART_LCRL_OFFSET );
+	        break;
+	default:
+	        return -1;
+	        break;
+	}
+	switch( speed ) {
+	case 115200:
+		*high = 0x0;
+		*low = 0x3;
+		return 0;
+	case 2400:
+		*high = 0x0;
+		// 4*115200*16/16/2400-1
+		*low = 0xBF;
+		return 0;
+	default:
+		return -1;
+	}
+}
+
 void baseIOBootstrap(struct BaseIO *com1, struct BaseIO *com2) {
 	COM1IO = com1;
 	COM2IO = com2;
 
 	// bootstrap COM1IO
+
+
+	baseIOsetfifo(COM1, OFF);
+	baseIOsetspeed(COM1, 2400);
+	int *line = (int *)( UART1_BASE + UART_LCRH_OFFSET );
+	*line = *line | WLEN_MASK;
+	*line = *line | STP2_MASK;
+	*line = *line & (~PEN_MASK);
+
 	COM1IO->channel = COM1;
 
 	COM1IO->writeBufferStart = COM1IO->writeBuffer;
@@ -50,6 +89,7 @@ void baseIOBootstrap(struct BaseIO *com1, struct BaseIO *com2) {
 
 	// bootstrap COM2IO
 	baseIOsetfifo(COM2, OFF);
+	baseIOsetspeed(COM2, 115200);
 	COM2IO->channel = COM2;
 
 	COM2IO->writeBufferStart = COM2IO->writeBuffer;
@@ -118,7 +158,12 @@ int readChar(struct BaseIO *baseIO, char *c) {
 }
 
 int buffer2port(struct BaseIO *baseIO) {
-	if( baseIO->writeBufferSize != 0 && !( *(baseIO->flags) & TXFF_MASK ) ) {
+	int flagCache = *(baseIO->flags);
+	if(baseIO->channel == COM1 && !( flagCache & CTS_MASK )) {
+		return -2;
+	}
+
+	if( baseIO->writeBufferSize != 0 && !( flagCache & TXFF_MASK ) ) {
 		*(baseIO->data) = *baseIO->writeBufferStart;
 		baseIO->writeBufferStart++;
 		baseIO->writeBufferSize--;

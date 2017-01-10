@@ -12,12 +12,16 @@ void initClock(struct Clock *clock, struct BaseIO *baseIO, int left, int top) {
 }
 
 int clockHeartBeat(struct Clock *clock) {
-	int timePassed = getTime();
+	unsigned int timePassed = getTime()/1000;
 	if(timePassed == clock->lastTime) {
 		return 0;
 	}
 	IO_POS(clock->baseIO, clock->top, clock->left);
-	baseIOprintf(clock->baseIO, "%ds elapsed", timePassed);
+	int hours = timePassed / 3600;
+	int minutes = (timePassed % 3600) / 60;
+	int seconds = timePassed % 60;
+
+	baseIOprintf(clock->baseIO, "%dh %dmin %ds elapsed", hours, minutes, seconds);
 	clock->lastTime = timePassed;
 	return 1;
 }

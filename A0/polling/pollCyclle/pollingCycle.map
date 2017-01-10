@@ -6,6 +6,14 @@ Archive member included because of file (symbol)
 ../lib/libcommandPrompt.a(commandPrompt.o)
                               ../lib/libUI.a(UI.o) (initCommandPrompt)
 ../lib/libclock.a(clock.o)    ../lib/libUI.a(UI.o) (initClock)
+../lib/libswitchTable.a(switchTable.o)
+                              ../lib/libUI.a(UI.o) (initSwitchTable)
+../lib/libtrainIO.a(trainIO.o)
+                              pollingCycle.o (trainIOBootstrap)
+../lib/libcommandHandler.a(commandHandler.o)
+                              pollingCycle.o (commandHandlerBootstrap)
+../lib/libtrainStatus.a(trainStatus.o)
+                              pollingCycle.o (trainSpeedBootstrap)
 /u/wbcowan/gnuarm-4.0.2/lib/gcc/arm-elf/4.0.2/libgcc.a(_udivsi3.o)
                               ../lib/libbaseIO.a(baseIO.o) (__udivsi3)
 /u/wbcowan/gnuarm-4.0.2/lib/gcc/arm-elf/4.0.2/libgcc.a(_umodsi3.o)
@@ -28,7 +36,7 @@ data            0x0000000000000000        0x0
  *(.data)
                 0x0000000000000000                _DataEnd = .
 
-bss             0x0000000000000000       0x14
+bss             0x0000000000000000       0x24
                 0x0000000000000000                _BssStart = .
  *(.bss)
  .bss           0x0000000000000000        0x8 ../lib/libbaseIO.a(baseIO.o)
@@ -38,66 +46,108 @@ bss             0x0000000000000000       0x14
                 0x000000000000000c                _then
                 0x0000000000000010                _now
                 0x0000000000000008                _timerTick
-                0x0000000000000014                _BssEnd = .
+ .bss           0x0000000000000014        0x4 ../lib/libtrainIO.a(trainIO.o)
+                0x0000000000000014                _trainIO
+ .bss           0x0000000000000018        0x4 ../lib/libcommandHandler.a(commandHandler.o)
+                0x0000000000000018                commandHandler
+ .bss           0x000000000000001c        0x8 ../lib/libtrainStatus.a(trainStatus.o)
+                0x000000000000001c                _trainSpeed
+                0x0000000000000020                _trainSwitchStatus
+                0x0000000000000024                _BssEnd = .
 
-text            0x0000000000000014     0x19d4
+text            0x0000000000000024     0x33ac
  *(.text)
- .text          0x0000000000000014       0xe4 pollingCycle.o
-                0x0000000000000014                main
- .text          0x00000000000000f8     0x1038 ../lib/libbaseIO.a(baseIO.o)
-                0x00000000000005d0                readChar
-                0x00000000000000f8                baseIOsetfifo
-                0x0000000000000e24                baseIOformat
-                0x0000000000000bb8                baseIOa2i
-                0x00000000000001c0                baseIOBootstrap
-                0x0000000000000dc0                baseIOi2a
-                0x000000000000090c                baseIOputr
-                0x00000000000003f8                getBaseIO
-                0x000000000000088c                baseIOputx
-                0x000000000000052c                writeStr
-                0x00000000000010f8                baseIOprintf
-                0x0000000000000b10                baseIOa2d
-                0x000000000000098c                baseIOputstr
-                0x000000000000082c                c2x
-                0x0000000000000478                writeChar
-                0x0000000000000a08                baseIOputw
-                0x0000000000000684                buffer2port
-                0x0000000000000754                port2buffer
-                0x0000000000000c7c                baseIOui2a
- .text          0x0000000000001130      0x180 ../lib/libtimer.a(timer.o)
-                0x00000000000011b4                getTimerTick
-                0x0000000000001280                getTime
-                0x0000000000001130                timerBootstrap
- .text          0x00000000000012b0       0xd8 ../lib/libUI.a(UI.o)
-                0x0000000000001314                UIHeartBeat
-                0x00000000000012b0                initUI
- .text          0x0000000000001388      0x308 ../lib/libcommandPrompt.a(commandPrompt.o)
-                0x0000000000001618                repositionCursor
-                0x000000000000143c                initCommandPrompt
-                0x0000000000001520                commandPromptHeartBeat
-                0x0000000000001388                initCommandStr
-                0x00000000000013c4                commandStrPush
- .text          0x0000000000001690      0x128 ../lib/libclock.a(clock.o)
-                0x00000000000016e8                clockHeartBeat
-                0x0000000000001690                initClock
- .text          0x00000000000017b8      0x110 /u/wbcowan/gnuarm-4.0.2/lib/gcc/arm-elf/4.0.2/libgcc.a(_udivsi3.o)
-                0x00000000000017b8                __udivsi3
-                0x00000000000018b0                __aeabi_uidivmod
- .text          0x00000000000018c8       0xcc /u/wbcowan/gnuarm-4.0.2/lib/gcc/arm-elf/4.0.2/libgcc.a(_umodsi3.o)
-                0x00000000000018c8                __umodsi3
- .text          0x0000000000001994        0x4 /u/wbcowan/gnuarm-4.0.2/lib/gcc/arm-elf/4.0.2/libgcc.a(_dvmd_tls.o)
-                0x0000000000001994                __aeabi_ldiv0
-                0x0000000000001994                __div0
-                0x0000000000001994                __aeabi_idiv0
+ .text          0x0000000000000024      0x1cc pollingCycle.o
+                0x0000000000000024                main
+ .text          0x00000000000001f0     0x11e8 ../lib/libbaseIO.a(baseIO.o)
+                0x0000000000000844                readChar
+                0x00000000000001f0                baseIOsetfifo
+                0x00000000000010cc                baseIOformat
+                0x0000000000000e60                baseIOa2i
+                0x00000000000003c4                baseIOBootstrap
+                0x0000000000001068                baseIOi2a
+                0x0000000000000bb4                baseIOputr
+                0x000000000000066c                getBaseIO
+                0x0000000000000b34                baseIOputx
+                0x00000000000007a0                writeStr
+                0x00000000000013a0                baseIOprintf
+                0x0000000000000db8                baseIOa2d
+                0x0000000000000c34                baseIOputstr
+                0x0000000000000ad4                c2x
+                0x00000000000006ec                writeChar
+                0x0000000000000cb0                baseIOputw
+                0x00000000000008f8                buffer2port
+                0x00000000000009fc                port2buffer
+                0x00000000000002b8                baseIOsetspeed
+                0x0000000000000f24                baseIOui2a
+ .text          0x00000000000013d8      0x17c ../lib/libtimer.a(timer.o)
+                0x0000000000001458                getTimerTick
+                0x0000000000001524                getTime
+                0x00000000000013d8                timerBootstrap
+ .text          0x0000000000001554      0x144 ../lib/libUI.a(UI.o)
+                0x00000000000015f0                UIHeartBeat
+                0x0000000000001554                initUI
+ .text          0x0000000000001698      0x4d4 ../lib/libcommandPrompt.a(commandPrompt.o)
+                0x0000000000001af4                repositionCursor
+                0x00000000000017b8                initCommandPrompt
+                0x000000000000175c                commandStrPop
+                0x000000000000189c                commandPromptHeartBeat
+                0x0000000000001698                initCommandStr
+                0x00000000000016d4                commandStrPush
+ .text          0x0000000000001b6c      0x1e8 ../lib/libclock.a(clock.o)
+                0x0000000000001bc4                clockHeartBeat
+                0x0000000000001b6c                initClock
+ .text          0x0000000000001d54      0x278 ../lib/libswitchTable.a(switchTable.o)
+                0x0000000000001da0                switchTableHeartBeat
+                0x0000000000001d54                initSwitchTable
+ .text          0x0000000000001fcc      0x858 ../lib/libtrainIO.a(trainIO.o)
+                0x0000000000002288                sendSetTrainReverseDirection
+                0x000000000000245c                sendTrainCmd
+                0x00000000000023b4                sendReadSensor
+                0x0000000000002180                sendSetTrainSpeed
+                0x0000000000002584                trainIOHeartBeat
+                0x00000000000027f4                getTrainIO
+                0x0000000000002320                sendSetSwitch
+                0x0000000000001fcc                trainIOBootstrap
+                0x0000000000002054                pushTrainCmd
+                0x00000000000021e0                sendSetTrainReverse
+ .text          0x0000000000002824      0x624 ../lib/libcommandHandler.a(commandHandler.o)
+                0x0000000000002e18                getCommandHandler
+                0x00000000000028fc                parseInt
+                0x00000000000028b8                commandHandlerBootstrap
+                0x0000000000002dd8                commandHandlerSetCommand
+                0x0000000000002a08                commandHandlerHeartBeat
+                0x0000000000002824                strCpy
+ .text          0x0000000000002e48      0x2dc ../lib/libtrainStatus.a(trainStatus.o)
+                0x0000000000002f6c                setTrainSpeed
+                0x0000000000002eb8                TrainSwitchStatusBootstrap
+                0x0000000000002fa0                readTrainSpeed
+                0x000000000000305c                readSwitchStatus
+                0x0000000000002fe0                setSwitchStatus
+                0x0000000000002e48                trainSpeedBootstrap
+                0x00000000000030f4                getTrainSwitchStatus
+                0x00000000000030c4                getTrainSpeed
+ .text          0x0000000000003124      0x110 /u/wbcowan/gnuarm-4.0.2/lib/gcc/arm-elf/4.0.2/libgcc.a(_udivsi3.o)
+                0x0000000000003124                __udivsi3
+                0x000000000000321c                __aeabi_uidivmod
+ .text          0x0000000000003234       0xcc /u/wbcowan/gnuarm-4.0.2/lib/gcc/arm-elf/4.0.2/libgcc.a(_umodsi3.o)
+                0x0000000000003234                __umodsi3
+ .text          0x0000000000003300        0x4 /u/wbcowan/gnuarm-4.0.2/lib/gcc/arm-elf/4.0.2/libgcc.a(_dvmd_tls.o)
+                0x0000000000003300                __aeabi_ldiv0
+                0x0000000000003300                __div0
+                0x0000000000003300                __aeabi_idiv0
  *(.got)
- .got           0x0000000000001998       0x14 pollingCycle.o
+ .got           0x0000000000003304       0x24 pollingCycle.o
  *(.got.plt)
- .got.plt       0x00000000000019ac        0xc pollingCycle.o
-                0x00000000000019ac                _GLOBAL_OFFSET_TABLE_
+ .got.plt       0x0000000000003328        0xc pollingCycle.o
+                0x0000000000003328                _GLOBAL_OFFSET_TABLE_
  *(.rodata)
- .rodata        0x00000000000019b8        0x8 pollingCycle.o
- .rodata        0x00000000000019c0       0x10 ../lib/libcommandPrompt.a(commandPrompt.o)
- .rodata        0x00000000000019d0       0x18 ../lib/libclock.a(clock.o)
+ .rodata        0x0000000000003334        0xc pollingCycle.o
+ .rodata        0x0000000000003340       0x10 ../lib/libcommandPrompt.a(commandPrompt.o)
+ .rodata        0x0000000000003350       0x24 ../lib/libclock.a(clock.o)
+ .rodata        0x0000000000003374       0x48 ../lib/libswitchTable.a(switchTable.o)
+ .rodata        0x00000000000033bc        0x8 ../lib/libtrainIO.a(trainIO.o)
+ .rodata        0x00000000000033c4        0xc ../lib/libcommandHandler.a(commandHandler.o)
  *(.glue_7)
  *(.glue_7t)
 
@@ -108,16 +158,25 @@ LOAD ../lib/libtimer.a
 LOAD ../lib/libUI.a
 LOAD ../lib/libcommandPrompt.a
 LOAD ../lib/libclock.a
+LOAD ../lib/libswitchTable.a
+LOAD ../lib/libsensorHistory.a
+LOAD ../lib/libtrainIO.a
+LOAD ../lib/libcommandHandler.a
+LOAD ../lib/libtrainStatus.a
 LOAD /u/wbcowan/gnuarm-4.0.2/lib/gcc/arm-elf/4.0.2/libgcc.a
 OUTPUT(pollingCycle.elf elf32-littlearm)
 
-.comment        0x0000000000000000       0x6c
+.comment        0x0000000000000000       0xb4
  .comment       0x0000000000000000       0x12 pollingCycle.o
  .comment       0x0000000000000012       0x12 ../lib/libbaseIO.a(baseIO.o)
  .comment       0x0000000000000024       0x12 ../lib/libtimer.a(timer.o)
  .comment       0x0000000000000036       0x12 ../lib/libUI.a(UI.o)
  .comment       0x0000000000000048       0x12 ../lib/libcommandPrompt.a(commandPrompt.o)
  .comment       0x000000000000005a       0x12 ../lib/libclock.a(clock.o)
+ .comment       0x000000000000006c       0x12 ../lib/libswitchTable.a(switchTable.o)
+ .comment       0x000000000000007e       0x12 ../lib/libtrainIO.a(trainIO.o)
+ .comment       0x0000000000000090       0x12 ../lib/libcommandHandler.a(commandHandler.o)
+ .comment       0x00000000000000a2       0x12 ../lib/libtrainStatus.a(trainStatus.o)
 
 .debug_line     0x0000000000000000      0x14f
  .debug_line    0x0000000000000000       0x86 /u/wbcowan/gnuarm-4.0.2/lib/gcc/arm-elf/4.0.2/libgcc.a(_udivsi3.o)
