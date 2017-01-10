@@ -16,8 +16,8 @@ void UIHeartBeat(struct UI *ui) {
 	int clockResult = clockHeartBeat(&ui->clock);
 	int commandResult = commandPromptHeartBeat(&ui->commandPrompt);
 	int sTableResult = switchTableHeartBeat(&ui->sTable);
-	sensorHistoryBootstrap(&ui->sHistory);
-	if(clockResult == 1 || commandResult == 1 || sTableResult == 1) {
+	int sHistoryResult = sensorHistoryHeartBeat(&ui->sHistory);
+	if(clockResult == 1 || commandResult == 1 || sTableResult == 1 || sHistoryResult == 1) {
 		repositionCursor(&ui->commandPrompt);
 	}
 }

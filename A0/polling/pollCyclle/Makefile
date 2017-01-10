@@ -25,7 +25,7 @@ pollingCycle.o: pollingCycle.s
 	$(AS) $(ASFLAGS) -o pollingCycle.o pollingCycle.s
 
 pollingCycle.elf: pollingCycle.o
-	$(LD) $(LDFLAGS) -o $@ pollingCycle.o -lbaseIO -ltimer -lUI -lcommandPrompt -lclock -lswitchTable -lsensorHistory -ltrainIO -lcommandHandler -ltrainStatus -lgcc
+	$(LD) $(LDFLAGS) -o $@ pollingCycle.o -lUI -lsensorHistory -lcommandPrompt -lclock -lswitchTable -ltrainIO -lcommandHandler -ltrainStatus -lbaseIO -ltimer -lgcc
 	-cp ./pollingCycle.elf /u/cs452/tftp/ARM/r4jin/pollingCycle.elf
 
 clean:

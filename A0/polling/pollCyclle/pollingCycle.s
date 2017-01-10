@@ -11,17 +11,18 @@
 	.global	main
 	.type	main, %function
 main:
-	@ args = 0, pretend = 0, frame = 3168
+	@ args = 0, pretend = 0, frame = 3212
 	@ frame_needed = 1, uses_anonymous_args = 0
 	mov	ip, sp
 	stmfd	sp!, {sl, fp, ip, lr, pc}
 	sub	fp, ip, #4
-	sub	sp, sp, #3168
+	sub	sp, sp, #3200
+	sub	sp, sp, #12
 	ldr	sl, .L11
 .L10:
 	add	sl, pc, sl
-	str	r0, [fp, #-3180]
-	str	r1, [fp, #-3184]
+	str	r0, [fp, #-3224]
+	str	r1, [fp, #-3228]
 	sub	r3, fp, #1072
 	sub	r3, r3, #12
 	sub	r2, fp, #2144
@@ -36,27 +37,29 @@ main:
 	mov	r1, r3
 	mov	r2, #27
 	bl	baseIOprintf(PLT)
-	sub	r3, fp, #2368
+	sub	r3, fp, #2400
+	sub	r3, r3, #8
 	sub	r2, fp, #2144
 	mov	r0, r3
 	mov	r1, r2
 	bl	initUI(PLT)
-	sub	r2, fp, #2768
-	sub	r2, r2, #8
+	sub	r2, fp, #2816
+	sub	r2, r2, #4
 	sub	r3, fp, #1072
 	sub	r3, r3, #12
 	mov	r0, r2
 	mov	r1, r3
 	bl	trainIOBootstrap(PLT)
-	sub	r3, fp, #2800
-	sub	r3, r3, #12
+	sub	r3, fp, #2848
+	sub	r3, r3, #8
 	mov	r0, r3
 	bl	commandHandlerBootstrap(PLT)
-	sub	r3, fp, #3136
+	sub	r3, fp, #3168
+	sub	r3, r3, #12
 	mov	r0, r3
 	bl	trainSpeedBootstrap(PLT)
-	sub	r3, fp, #3152
-	sub	r3, r3, #12
+	sub	r3, fp, #3200
+	sub	r3, r3, #8
 	mov	r0, r3
 	bl	TrainSwitchStatusBootstrap(PLT)
 	mov	r3, #1
@@ -64,15 +67,15 @@ main:
 	b	.L2
 .L3:
 	mov	r3, #3
-	str	r3, [fp, #-3176]
+	str	r3, [fp, #-3220]
 	ldr	r3, [fp, #-24]
-	str	r3, [fp, #-3172]
+	str	r3, [fp, #-3216]
 	mov	r3, #1
-	str	r3, [fp, #-3168]
-	sub	r2, fp, #2768
-	sub	r2, r2, #8
-	sub	r3, fp, #3168
-	sub	r3, r3, #8
+	str	r3, [fp, #-3212]
+	sub	r2, fp, #2816
+	sub	r2, r2, #4
+	sub	r3, fp, #3216
+	sub	r3, r3, #4
 	mov	r0, r2
 	mov	r1, r3
 	bl	pushTrainCmd(PLT)
@@ -109,15 +112,16 @@ main:
 	sub	r3, r3, #12
 	mov	r0, r3
 	bl	port2buffer(PLT)
-	sub	r3, fp, #2368
-	mov	r0, r3
-	bl	UIHeartBeat(PLT)
-	sub	r3, fp, #2768
+	sub	r3, fp, #2400
 	sub	r3, r3, #8
 	mov	r0, r3
+	bl	UIHeartBeat(PLT)
+	sub	r3, fp, #2816
+	sub	r3, r3, #4
+	mov	r0, r3
 	bl	trainIOHeartBeat(PLT)
-	sub	r3, fp, #2800
-	sub	r3, r3, #12
+	sub	r3, fp, #2848
+	sub	r3, r3, #8
 	mov	r0, r3
 	bl	commandHandlerHeartBeat(PLT)
 	mov	r3, r0

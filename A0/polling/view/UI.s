@@ -50,35 +50,40 @@ initUI:
 	.global	UIHeartBeat
 	.type	UIHeartBeat, %function
 UIHeartBeat:
-	@ args = 0, pretend = 0, frame = 16
+	@ args = 0, pretend = 0, frame = 20
 	@ frame_needed = 1, uses_anonymous_args = 0
 	mov	ip, sp
 	stmfd	sp!, {fp, ip, lr, pc}
 	sub	fp, ip, #4
-	sub	sp, sp, #16
-	str	r0, [fp, #-28]
-	ldr	r3, [fp, #-28]
+	sub	sp, sp, #20
+	str	r0, [fp, #-32]
+	ldr	r3, [fp, #-32]
 	add	r3, r3, #72
 	mov	r0, r3
 	bl	clockHeartBeat(PLT)
 	mov	r3, r0
-	str	r3, [fp, #-24]
-	ldr	r3, [fp, #-28]
+	str	r3, [fp, #-28]
+	ldr	r3, [fp, #-32]
 	add	r3, r3, #12
 	mov	r0, r3
 	bl	commandPromptHeartBeat(PLT)
 	mov	r3, r0
-	str	r3, [fp, #-20]
-	ldr	r3, [fp, #-28]
+	str	r3, [fp, #-24]
+	ldr	r3, [fp, #-32]
 	add	r3, r3, #88
 	mov	r0, r3
 	bl	switchTableHeartBeat(PLT)
 	mov	r3, r0
-	str	r3, [fp, #-16]
-	ldr	r3, [fp, #-28]
+	str	r3, [fp, #-20]
+	ldr	r3, [fp, #-32]
 	add	r3, r3, #100
 	mov	r0, r3
-	bl	sensorHistoryBootstrap(PLT)
+	bl	sensorHistoryHeartBeat(PLT)
+	mov	r3, r0
+	str	r3, [fp, #-16]
+	ldr	r3, [fp, #-28]
+	cmp	r3, #1
+	beq	.L4
 	ldr	r3, [fp, #-24]
 	cmp	r3, #1
 	beq	.L4
@@ -87,13 +92,13 @@ UIHeartBeat:
 	beq	.L4
 	ldr	r3, [fp, #-16]
 	cmp	r3, #1
-	bne	.L8
+	bne	.L9
 .L4:
-	ldr	r3, [fp, #-28]
+	ldr	r3, [fp, #-32]
 	add	r3, r3, #12
 	mov	r0, r3
 	bl	repositionCursor(PLT)
-.L8:
+.L9:
 	sub	sp, fp, #12
 	ldmfd	sp, {fp, sp, pc}
 	.size	UIHeartBeat, .-UIHeartBeat

@@ -11,45 +11,58 @@ _trainIO:
 	.global	trainIOBootstrap
 	.type	trainIOBootstrap, %function
 trainIOBootstrap:
-	@ args = 0, pretend = 0, frame = 8
+	@ args = 0, pretend = 0, frame = 12
 	@ frame_needed = 1, uses_anonymous_args = 0
 	mov	ip, sp
 	stmfd	sp!, {sl, fp, ip, lr, pc}
 	sub	fp, ip, #4
-	sub	sp, sp, #8
-	ldr	sl, .L4
-.L3:
+	sub	sp, sp, #12
+	ldr	sl, .L6
+.L5:
 	add	sl, pc, sl
-	str	r0, [fp, #-20]
-	str	r1, [fp, #-24]
-	ldr	r2, [fp, #-20]
-	ldr	r3, [fp, #-24]
+	str	r0, [fp, #-24]
+	str	r1, [fp, #-28]
+	ldr	r2, [fp, #-24]
+	ldr	r3, [fp, #-28]
 	str	r3, [r2, #0]
-	ldr	r2, [fp, #-20]
+	ldr	r2, [fp, #-24]
 	mov	r3, #0
 	str	r3, [r2, #364]
-	ldr	r2, [fp, #-20]
+	ldr	r2, [fp, #-24]
 	mov	r3, #0
 	str	r3, [r2, #368]
-	ldr	r2, [fp, #-20]
+	ldr	r2, [fp, #-24]
 	mov	r3, #0
 	str	r3, [r2, #372]
-	ldr	r3, .L4+4
+	ldr	r3, .L6+4
 	ldr	r2, [sl, r3]
-	ldr	r3, [fp, #-20]
+	ldr	r3, [fp, #-24]
 	str	r3, [r2, #0]
-	ldr	r2, [fp, #-20]
+	ldr	r2, [fp, #-24]
 	mov	r3, #1
 	str	r3, [r2, #392]
-	ldr	r2, [fp, #-20]
+	ldr	r2, [fp, #-24]
 	mov	r3, #0
 	str	r3, [r2, #396]
+	ldr	r2, [fp, #-24]
+	mov	r3, #0
+	str	r3, [r2, #408]
+.L2:
+	ldr	r3, [fp, #-24]
+	ldr	r3, [r3, #0]
+	sub	r2, fp, #17
+	mov	r0, r3
+	mov	r1, r2
+	bl	readChar(PLT)
+	mov	r3, r0
+	cmn	r3, #1
+	bne	.L2
 	sub	sp, fp, #16
 	ldmfd	sp, {sl, fp, sp, pc}
-.L5:
+.L7:
 	.align	2
-.L4:
-	.word	_GLOBAL_OFFSET_TABLE_-(.L3+8)
+.L6:
+	.word	_GLOBAL_OFFSET_TABLE_-(.L5+8)
 	.word	_trainIO(GOT)
 	.size	trainIOBootstrap, .-trainIOBootstrap
 	.align	2
@@ -67,11 +80,11 @@ pushTrainCmd:
 	ldr	r3, [fp, #-16]
 	ldr	r3, [r3, #372]
 	cmp	r3, #30
-	bne	.L7
+	bne	.L9
 	mvn	r3, #0
 	str	r3, [fp, #-24]
-	b	.L9
-.L7:
+	b	.L11
+.L9:
 	ldr	r3, [fp, #-16]
 	ldr	r2, [r3, #368]
 	ldr	r3, [fp, #-20]
@@ -124,14 +137,14 @@ pushTrainCmd:
 	ldr	r3, [fp, #-16]
 	ldr	r3, [r3, #368]
 	cmp	r3, #29
-	ble	.L10
+	ble	.L12
 	ldr	r2, [fp, #-16]
 	mov	r3, #0
 	str	r3, [r2, #368]
-.L10:
+.L12:
 	mov	r3, #1
 	str	r3, [fp, #-24]
-.L9:
+.L11:
 	ldr	r3, [fp, #-24]
 	mov	r0, r3
 	sub	sp, fp, #12
@@ -152,8 +165,8 @@ sendSetTrainSpeed:
 	stmfd	sp!, {sl, fp, ip, lr, pc}
 	sub	fp, ip, #4
 	sub	sp, sp, #12
-	ldr	sl, .L16
-.L15:
+	ldr	sl, .L18
+.L17:
 	add	sl, pc, sl
 	str	r0, [fp, #-20]
 	str	r1, [fp, #-24]
@@ -161,7 +174,7 @@ sendSetTrainSpeed:
 	ldr	r3, [fp, #-20]
 	ldr	r3, [r3, #0]
 	mov	r0, r3
-	ldr	r3, .L16+4
+	ldr	r3, .L18+4
 	add	r3, sl, r3
 	mov	r1, r3
 	ldr	r2, [fp, #-28]
@@ -171,10 +184,10 @@ sendSetTrainSpeed:
 	mov	r0, r3
 	sub	sp, fp, #16
 	ldmfd	sp, {sl, fp, sp, pc}
-.L17:
+.L19:
 	.align	2
-.L16:
-	.word	_GLOBAL_OFFSET_TABLE_-(.L15+8)
+.L18:
+	.word	_GLOBAL_OFFSET_TABLE_-(.L17+8)
 	.word	.LC0(GOTOFF)
 	.size	sendSetTrainSpeed, .-sendSetTrainSpeed
 	.align	2
@@ -187,8 +200,8 @@ sendSetTrainReverse:
 	stmfd	sp!, {sl, fp, ip, lr, pc}
 	sub	fp, ip, #4
 	sub	sp, sp, #12
-	ldr	sl, .L21
-.L20:
+	ldr	sl, .L23
+.L22:
 	add	sl, pc, sl
 	str	r0, [fp, #-20]
 	str	r1, [fp, #-24]
@@ -196,7 +209,7 @@ sendSetTrainReverse:
 	ldr	r3, [fp, #-20]
 	ldr	r3, [r3, #0]
 	mov	r0, r3
-	ldr	r3, .L21+4
+	ldr	r3, .L23+4
 	add	r3, sl, r3
 	mov	r1, r3
 	mov	r2, #0
@@ -224,10 +237,10 @@ sendSetTrainReverse:
 	mov	r0, r3
 	sub	sp, fp, #16
 	ldmfd	sp, {sl, fp, sp, pc}
-.L22:
+.L24:
 	.align	2
-.L21:
-	.word	_GLOBAL_OFFSET_TABLE_-(.L20+8)
+.L23:
+	.word	_GLOBAL_OFFSET_TABLE_-(.L22+8)
 	.word	.LC0(GOTOFF)
 	.size	sendSetTrainReverse, .-sendSetTrainReverse
 	.align	2
@@ -240,8 +253,8 @@ sendSetTrainReverseDirection:
 	stmfd	sp!, {sl, fp, ip, lr, pc}
 	sub	fp, ip, #4
 	sub	sp, sp, #12
-	ldr	sl, .L26
-.L25:
+	ldr	sl, .L28
+.L27:
 	add	sl, pc, sl
 	str	r0, [fp, #-20]
 	str	r1, [fp, #-24]
@@ -249,7 +262,7 @@ sendSetTrainReverseDirection:
 	ldr	r3, [fp, #-20]
 	ldr	r3, [r3, #0]
 	mov	r0, r3
-	ldr	r3, .L26+4
+	ldr	r3, .L28+4
 	add	r3, sl, r3
 	mov	r1, r3
 	mov	r2, #15
@@ -273,10 +286,10 @@ sendSetTrainReverseDirection:
 	mov	r0, r3
 	sub	sp, fp, #16
 	ldmfd	sp, {sl, fp, sp, pc}
-.L27:
+.L29:
 	.align	2
-.L26:
-	.word	_GLOBAL_OFFSET_TABLE_-(.L25+8)
+.L28:
+	.word	_GLOBAL_OFFSET_TABLE_-(.L27+8)
 	.word	.LC0(GOTOFF)
 	.size	sendSetTrainReverseDirection, .-sendSetTrainReverseDirection
 	.align	2
@@ -289,46 +302,51 @@ sendSetSwitch:
 	stmfd	sp!, {sl, fp, ip, lr, pc}
 	sub	fp, ip, #4
 	sub	sp, sp, #12
-	ldr	sl, .L34
-.L33:
+	ldr	sl, .L36
+.L35:
 	add	sl, pc, sl
 	str	r0, [fp, #-20]
 	str	r1, [fp, #-24]
 	str	r2, [fp, #-28]
 	ldr	r3, [fp, #-28]
 	cmp	r3, #0
-	bne	.L29
+	bne	.L31
 	ldr	r3, [fp, #-20]
 	ldr	r3, [r3, #0]
 	mov	r0, r3
-	ldr	r3, .L34+4
+	ldr	r3, .L36+4
 	add	r3, sl, r3
 	mov	r1, r3
 	mov	r2, #33
 	ldr	r3, [fp, #-24]
 	bl	baseIOprintf(PLT)
-	b	.L31
-.L29:
+	b	.L33
+.L31:
 	ldr	r3, [fp, #-20]
 	ldr	r3, [r3, #0]
 	mov	r0, r3
-	ldr	r3, .L34+4
+	ldr	r3, .L36+4
 	add	r3, sl, r3
 	mov	r1, r3
 	mov	r2, #34
 	ldr	r3, [fp, #-24]
 	bl	baseIOprintf(PLT)
-.L31:
+.L33:
 	mov	r3, #1
 	mov	r0, r3
 	sub	sp, fp, #16
 	ldmfd	sp, {sl, fp, sp, pc}
-.L35:
+.L37:
 	.align	2
-.L34:
-	.word	_GLOBAL_OFFSET_TABLE_-(.L33+8)
+.L36:
+	.word	_GLOBAL_OFFSET_TABLE_-(.L35+8)
 	.word	.LC0(GOTOFF)
 	.size	sendSetSwitch, .-sendSetSwitch
+	.section	.rodata
+	.align	2
+.LC1:
+	.ascii	"%c\000"
+	.text
 	.align	2
 	.global	sendReadSensor
 	.type	sendReadSensor, %function
@@ -339,26 +357,29 @@ sendReadSensor:
 	stmfd	sp!, {sl, fp, ip, lr, pc}
 	sub	fp, ip, #4
 	sub	sp, sp, #12
-	ldr	sl, .L42
-.L41:
+	ldr	sl, .L44
+.L43:
 	add	sl, pc, sl
 	str	r0, [fp, #-24]
 	str	r1, [fp, #-28]
 	mov	r3, #0
 	str	r3, [fp, #-20]
-	b	.L37
-.L38:
+	b	.L39
+.L40:
+	ldr	r3, [fp, #-20]
+	mov	r3, r3, asl #2
+	mov	r2, r3
 	ldr	r3, [fp, #-28]
-	add	r2, r3, #20
+	add	r2, r2, r3
 	mov	r3, #0
 	str	r3, [r2, #0]
 	ldr	r3, [fp, #-20]
 	add	r3, r3, #1
 	str	r3, [fp, #-20]
-.L37:
+.L39:
 	ldr	r3, [fp, #-20]
 	cmp	r3, #5
-	ble	.L38
+	ble	.L40
 	ldr	r2, [fp, #-24]
 	ldr	r3, [fp, #-28]
 	str	r3, [r2, #404]
@@ -368,21 +389,20 @@ sendReadSensor:
 	ldr	r3, [fp, #-24]
 	ldr	r3, [r3, #0]
 	mov	r0, r3
-	ldr	r3, .L42+4
+	ldr	r3, .L44+4
 	add	r3, sl, r3
 	mov	r1, r3
-	mov	r2, #12
-	mov	r3, #133
+	mov	r2, #133
 	bl	baseIOprintf(PLT)
 	mov	r3, #1
 	mov	r0, r3
 	sub	sp, fp, #16
 	ldmfd	sp, {sl, fp, sp, pc}
-.L43:
+.L45:
 	.align	2
-.L42:
-	.word	_GLOBAL_OFFSET_TABLE_-(.L41+8)
-	.word	.LC0(GOTOFF)
+.L44:
+	.word	_GLOBAL_OFFSET_TABLE_-(.L43+8)
+	.word	.LC1(GOTOFF)
 	.size	sendReadSensor, .-sendReadSensor
 	.align	2
 	.global	sendTrainCmd
@@ -400,15 +420,15 @@ sendTrainCmd:
 	ldr	r3, [r3, #0]
 	cmp	r3, #4
 	addls	pc, pc, r3, asl #2
-	b	.L45
-	.p2align 2
-.L51:
-	b	.L46
 	b	.L47
+	.p2align 2
+.L53:
 	b	.L48
 	b	.L49
 	b	.L50
-.L46:
+	b	.L51
+	b	.L52
+.L48:
 	ldr	r3, [fp, #-20]
 	ldr	r2, [r3, #4]
 	ldr	r3, [fp, #-20]
@@ -419,8 +439,8 @@ sendTrainCmd:
 	bl	sendSetTrainSpeed(PLT)
 	mov	r3, r0
 	str	r3, [fp, #-24]
-	b	.L52
-.L47:
+	b	.L54
+.L49:
 	ldr	r3, [fp, #-20]
 	ldr	r2, [r3, #4]
 	ldr	r3, [fp, #-20]
@@ -431,8 +451,8 @@ sendTrainCmd:
 	bl	sendSetTrainReverse(PLT)
 	mov	r3, r0
 	str	r3, [fp, #-24]
-	b	.L52
-.L48:
+	b	.L54
+.L50:
 	ldr	r3, [fp, #-20]
 	ldr	r2, [r3, #4]
 	ldr	r3, [fp, #-20]
@@ -443,8 +463,8 @@ sendTrainCmd:
 	bl	sendSetTrainReverseDirection(PLT)
 	mov	r3, r0
 	str	r3, [fp, #-24]
-	b	.L52
-.L49:
+	b	.L54
+.L51:
 	ldr	r3, [fp, #-20]
 	ldr	r2, [r3, #4]
 	ldr	r3, [fp, #-20]
@@ -455,8 +475,8 @@ sendTrainCmd:
 	bl	sendSetSwitch(PLT)
 	mov	r3, r0
 	str	r3, [fp, #-24]
-	b	.L52
-.L50:
+	b	.L54
+.L52:
 	ldr	r3, [fp, #-20]
 	ldr	r3, [r3, #4]
 	ldr	r0, [fp, #-16]
@@ -464,11 +484,11 @@ sendTrainCmd:
 	bl	sendReadSensor(PLT)
 	mov	r3, r0
 	str	r3, [fp, #-24]
-	b	.L52
-.L45:
+	b	.L54
+.L47:
 	mvn	r3, #0
 	str	r3, [fp, #-24]
-.L52:
+.L54:
 	ldr	r3, [fp, #-24]
 	mov	r0, r3
 	sub	sp, fp, #12
@@ -478,131 +498,135 @@ sendTrainCmd:
 	.global	trainIOHeartBeat
 	.type	trainIOHeartBeat, %function
 trainIOHeartBeat:
-	@ args = 0, pretend = 0, frame = 16
+	@ args = 0, pretend = 0, frame = 28
 	@ frame_needed = 1, uses_anonymous_args = 0
 	mov	ip, sp
 	stmfd	sp!, {fp, ip, lr, pc}
 	sub	fp, ip, #4
-	sub	sp, sp, #16
-	str	r0, [fp, #-24]
-	ldr	r3, [fp, #-24]
+	sub	sp, sp, #28
+	str	r0, [fp, #-36]
+	ldr	r3, [fp, #-36]
 	ldr	r3, [r3, #400]
 	cmp	r3, #0
-	ble	.L55
-	ldr	r3, [fp, #-24]
+	ble	.L57
+	ldr	r3, [fp, #-36]
 	ldr	r3, [r3, #0]
-	sub	r2, fp, #17
+	sub	r2, fp, #29
 	mov	r0, r3
 	mov	r1, r2
 	bl	readChar(PLT)
 	mov	r3, r0
 	cmn	r3, #1
-	beq	.L55
+	beq	.L57
+	ldr	r3, [fp, #-36]
+	ldr	r3, [r3, #400]
+	rsb	r2, r3, #10
+	mov	r3, r2, lsr #31
+	add	r3, r3, r2
+	mov	r3, r3, asr #1
+	str	r3, [fp, #-24]
+	ldr	r3, [fp, #-36]
+	ldr	r3, [r3, #400]
+	rsb	r2, r3, #11
+	mov	r3, r2, asr #31
+	mov	r1, r3, lsr #31
+	add	r3, r2, r1
+	and	r3, r3, #1
+	rsb	r3, r1, r3
+	mov	r3, r3, asl #3
+	str	r3, [fp, #-20]
+	ldrb	r3, [fp, #-29]	@ zero_extendqisi2
+	str	r3, [fp, #-16]
+	ldr	r3, [fp, #-36]
+	ldr	r2, [r3, #404]
 	ldr	r3, [fp, #-24]
+	mov	r3, r3, asl #2
+	add	r0, r2, r3
+	ldr	r3, [fp, #-36]
+	ldr	r2, [r3, #404]
+	ldr	r3, [fp, #-24]
+	mov	r3, r3, asl #2
+	add	r3, r2, r3
+	ldr	r1, [r3, #0]
+	ldr	r2, [fp, #-16]
+	ldr	r3, [fp, #-20]
+	mov	r3, r2, asl r3
+	add	r3, r1, r3
+	str	r3, [r0, #0]
+	ldr	r3, [fp, #-36]
 	ldr	r3, [r3, #400]
 	sub	r2, r3, #1
-	ldr	r3, [fp, #-24]
+	ldr	r3, [fp, #-36]
 	str	r2, [r3, #400]
-	ldr	r3, [fp, #-24]
-	ldr	r1, [r3, #404]
-	ldr	r3, [fp, #-24]
-	ldr	r3, [r3, #400]
-	rsb	r2, r3, #10
-	mov	r3, r2, lsr #31
-	add	r3, r3, r2
-	mov	r3, r3, asr #1
-	mov	r2, r3
-	mov	r3, r2
-	mov	r3, r3, asl #2
-	add	r0, r1, r3
-	ldr	r3, [fp, #-24]
-	ldr	r1, [r3, #404]
-	mov	r3, r2
-	mov	r3, r3, asl #2
-	add	r3, r1, r3
-	ldr	r3, [r3, #0]
-	mov	r3, r3, asl #8
-	str	r3, [r0, #0]
-	ldr	r3, [fp, #-24]
-	ldr	r1, [r3, #404]
-	ldr	r3, [fp, #-24]
-	ldr	r3, [r3, #400]
-	rsb	r2, r3, #10
-	mov	r3, r2, lsr #31
-	add	r3, r3, r2
-	mov	r3, r3, asr #1
-	mov	r2, r3
-	mov	r3, r2
-	mov	r3, r3, asl #2
-	add	r0, r1, r3
-	ldr	r3, [fp, #-24]
-	ldr	r1, [r3, #404]
-	mov	r3, r2
-	mov	r3, r3, asl #2
-	add	r3, r1, r3
-	ldr	r2, [r3, #0]
-	ldrb	r3, [fp, #-17]	@ zero_extendqisi2
-	orr	r3, r2, r3
-	str	r3, [r0, #0]
-	ldr	r3, [fp, #-24]
+	ldr	r3, [fp, #-36]
 	ldr	r3, [r3, #400]
 	cmp	r3, #0
-	bne	.L55
-	ldr	r3, [fp, #-24]
+	bne	.L57
+	ldr	r3, [fp, #-36]
 	ldr	r3, [r3, #404]
 	add	r2, r3, #20
 	mov	r3, #1
 	str	r3, [r2, #0]
-.L55:
+.L57:
+	ldr	r3, [fp, #-36]
+	ldr	r3, [r3, #0]
+	ldr	r3, [r3, #524]
+	cmp	r3, #0
+	beq	.L61
+	bl	getTime(PLT)
+	mov	r2, r0
+	ldr	r3, [fp, #-36]
+	str	r2, [r3, #408]
+.L61:
 	bl	getTime(PLT)
 	mov	r3, r0
-	str	r3, [fp, #-16]
-	ldr	r3, [fp, #-24]
-	ldr	r3, [r3, #396]
-	add	r2, r3, #150
-	ldr	r3, [fp, #-16]
-	cmp	r2, r3
-	bls	.L59
-	mov	r3, #0
 	str	r3, [fp, #-28]
-	b	.L61
-.L59:
-	ldr	r3, [fp, #-24]
+	ldr	r3, [fp, #-36]
+	ldr	r3, [r3, #408]
+	add	r2, r3, #50
+	ldr	r3, [fp, #-28]
+	cmp	r2, r3
+	bls	.L63
+	mov	r3, #0
+	str	r3, [fp, #-40]
+	b	.L65
+.L63:
+	ldr	r3, [fp, #-36]
 	ldr	r3, [r3, #392]
 	cmp	r3, #0
-	bne	.L62
-	ldr	r3, [fp, #-24]
+	bne	.L66
+	ldr	r3, [fp, #-36]
 	ldr	r2, [r3, #388]
-	ldr	r3, [fp, #-16]
+	ldr	r3, [fp, #-28]
 	cmp	r2, r3
-	bcs	.L62
-	ldr	r3, [fp, #-24]
+	bcs	.L66
+	ldr	r3, [fp, #-36]
 	add	r3, r3, #376
-	ldr	r0, [fp, #-24]
+	ldr	r0, [fp, #-36]
 	mov	r1, r3
 	bl	sendTrainCmd(PLT)
-	ldr	r2, [fp, #-24]
+	ldr	r2, [fp, #-36]
 	mov	r3, #1
 	str	r3, [r2, #392]
 	bl	getTime(PLT)
 	mov	r2, r0
-	ldr	r3, [fp, #-24]
+	ldr	r3, [fp, #-36]
 	str	r2, [r3, #396]
 	mov	r3, #1
-	str	r3, [fp, #-28]
-	b	.L61
-.L62:
-	ldr	r3, [fp, #-24]
+	str	r3, [fp, #-40]
+	b	.L65
+.L66:
+	ldr	r3, [fp, #-36]
 	ldr	r3, [r3, #372]
 	cmp	r3, #0
-	bne	.L65
+	bne	.L69
 	mov	r3, #0
-	str	r3, [fp, #-28]
-	b	.L61
-.L65:
-	ldr	r3, [fp, #-24]
+	str	r3, [fp, #-40]
+	b	.L65
+.L69:
+	ldr	r3, [fp, #-36]
 	add	r1, r3, #4
-	ldr	r3, [fp, #-24]
+	ldr	r3, [fp, #-36]
 	ldr	r3, [r3, #364]
 	mov	r2, r3
 	mov	r3, r2
@@ -610,35 +634,35 @@ trainIOHeartBeat:
 	add	r3, r3, r2
 	mov	r3, r3, asl #2
 	add	r3, r1, r3
-	ldr	r0, [fp, #-24]
+	ldr	r0, [fp, #-36]
 	mov	r1, r3
 	bl	sendTrainCmd(PLT)
 	bl	getTime(PLT)
 	mov	r2, r0
-	ldr	r3, [fp, #-24]
+	ldr	r3, [fp, #-36]
 	str	r2, [r3, #396]
-	ldr	r3, [fp, #-24]
+	ldr	r3, [fp, #-36]
 	ldr	r3, [r3, #372]
 	sub	r2, r3, #1
-	ldr	r3, [fp, #-24]
+	ldr	r3, [fp, #-36]
 	str	r2, [r3, #372]
-	ldr	r3, [fp, #-24]
+	ldr	r3, [fp, #-36]
 	ldr	r3, [r3, #364]
 	add	r2, r3, #1
-	ldr	r3, [fp, #-24]
+	ldr	r3, [fp, #-36]
 	str	r2, [r3, #364]
-	ldr	r3, [fp, #-24]
+	ldr	r3, [fp, #-36]
 	ldr	r3, [r3, #364]
 	cmp	r3, #29
-	ble	.L67
-	ldr	r2, [fp, #-24]
+	ble	.L71
+	ldr	r2, [fp, #-36]
 	mov	r3, #0
 	str	r3, [r2, #364]
-.L67:
+.L71:
 	mov	r3, #1
-	str	r3, [fp, #-28]
-.L61:
-	ldr	r3, [fp, #-28]
+	str	r3, [fp, #-40]
+.L65:
+	ldr	r3, [fp, #-40]
 	mov	r0, r3
 	sub	sp, fp, #12
 	ldmfd	sp, {fp, sp, pc}
@@ -652,18 +676,18 @@ getTrainIO:
 	mov	ip, sp
 	stmfd	sp!, {sl, fp, ip, lr, pc}
 	sub	fp, ip, #4
-	ldr	sl, .L73
-.L72:
+	ldr	sl, .L77
+.L76:
 	add	sl, pc, sl
-	ldr	r3, .L73+4
+	ldr	r3, .L77+4
 	ldr	r3, [sl, r3]
 	ldr	r3, [r3, #0]
 	mov	r0, r3
 	ldmfd	sp, {sl, fp, sp, pc}
-.L74:
+.L78:
 	.align	2
-.L73:
-	.word	_GLOBAL_OFFSET_TABLE_-(.L72+8)
+.L77:
+	.word	_GLOBAL_OFFSET_TABLE_-(.L76+8)
 	.word	_trainIO(GOT)
 	.size	getTrainIO, .-getTrainIO
 	.ident	"GCC: (GNU) 4.0.2"

@@ -5,7 +5,7 @@
 
 #define TRAIN_CMD_BUFFER_SIZE 30
 
-#define TRAIN_IO_INTERVAL 150
+#define TRAIN_IO_INTERVAL 50
 
 
 struct TrainIO {
@@ -24,6 +24,7 @@ struct TrainIO {
 	int packageLeft;
 	unsigned int *sensorBuffer;
 	
+	unsigned int baseIOFinishTime;
 };
 
 void trainIOBootstrap(struct TrainIO *trainIO, struct BaseIO *baseIO);

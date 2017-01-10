@@ -14,6 +14,9 @@ void trainIOBootstrap(struct TrainIO *trainIO, struct BaseIO *baseIO) {
 	trainIO->defferedHandled = 1;
 
 	trainIO->lastSendTime = 0;
+	trainIO->baseIOFinishTime = 0;
+	char c;
+	while(readChar(trainIO->baseIO, &c) != -1) ;
 }
 
 //struct TrainIO *getTrainIO();
@@ -73,11 +76,11 @@ int sendReadSensor(struct TrainIO *trainIO, unsigned int *buffer) {
 	// always read first 5 modules (Too Lazy!!!)
 	// Signal it NOT done
 	int i = 0;
-	for(;i < 6; i++) buffer[5] = 0x0;
+	for(;i < 6; i++) buffer[i] = 0x0;
 	trainIO->sensorBuffer = buffer;
 	trainIO->packageLeft = 10;
 	// send request
-	baseIOprintf(trainIO->baseIO, "%c%c", 0xC, 0x85);
+	baseIOprintf(trainIO->baseIO, "%c", 0x85);
 
 	return 1;
 }
@@ -110,10 +113,11 @@ int trainIOHeartBeat(struct TrainIO *trainIO) {
 		// reading from com1
 		char c;
 		if(readChar(trainIO->baseIO, &c) != -1) {
+			int index = (10 - trainIO->packageLeft) / 2;
+			int offset = 8 * ((10 - trainIO->packageLeft + 1) % 2);
+			unsigned int tmp = c;
+			trainIO->sensorBuffer[index] += (tmp << offset);
 			trainIO->packageLeft--;
-			trainIO->sensorBuffer[(10 - trainIO->packageLeft)/2] <<= 8;
-			trainIO->sensorBuffer[(10 - trainIO->packageLeft)/2] |= c;
-
 			if(trainIO->packageLeft == 0) {
 				// signal finish
 				trainIO->sensorBuffer[5] = 1;
@@ -122,9 +126,12 @@ int trainIOHeartBeat(struct TrainIO *trainIO) {
 	}
 
 
+	if(trainIO->baseIO->writeBufferSize != 0) {
+		trainIO->baseIOFinishTime = getTime();
+	}
 
 	unsigned int currentTime = getTime();
-	if(currentTime < trainIO->lastSendTime + TRAIN_IO_INTERVAL) return 0;
+	if(currentTime < trainIO->baseIOFinishTime + TRAIN_IO_INTERVAL) return 0;
 	if(!trainIO->defferedHandled && currentTime > trainIO->defferedTime) {
 		sendTrainCmd(trainIO, &(trainIO->defferedTrainCmd));
 		trainIO->defferedHandled = 1;

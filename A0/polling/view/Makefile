@@ -70,7 +70,7 @@ sensorHistory.o: sensorHistory.s
 	$(AS) $(ASFLAGS) -o sensorHistory.o sensorHistory.s
 
 sensorHistory.a: sensorHistory.o
-	$(AR) $(ARFLAGS) $@ switchTable.o
+	$(AR) $(ARFLAGS) $@ sensorHistory.o
 	-cp ./sensorHistory.a ../lib/libsensorHistory.a
 
 clean:

@@ -8,6 +8,11 @@ struct SensorData {
 	unsigned int buffer[6];
 };
 
+struct SensorHistoryData {
+	char module;
+	int id;
+};
+
 struct SensorHistory {
 	struct BaseIO *baseIO;
 
@@ -16,7 +21,7 @@ struct SensorHistory {
 	struct SensorData data[2];
 	int last, current;
 
-	unsigned int triggerHistory[SENSOR_HISTORY_MAX];
+	struct SensorHistoryData triggerHistory[SENSOR_HISTORY_MAX];
 	int triggerHistoryStart, triggerHistoryEnd;
 
 	unsigned int nextUpdateTime;
@@ -25,4 +30,4 @@ struct SensorHistory {
 
 
 void initSensorHistory(struct SensorHistory *sHistory, struct BaseIO *baseIO, int left, int top);
-int sensorHistoryBootstrap(struct SensorHistory *sHistory);
+int sensorHistoryHeartBeat(struct SensorHistory *sHistory);
