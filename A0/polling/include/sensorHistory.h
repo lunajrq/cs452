@@ -26,6 +26,10 @@ struct SensorHistory {
 
 	unsigned int nextUpdateTime;
 	int isIdle;
+
+	int startTime;
+	unsigned int timeResult;
+	unsigned int tempTime;
 };
 
 

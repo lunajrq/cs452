@@ -64,8 +64,8 @@ TrainSwitchStatusBootstrap:
 	stmfd	sp!, {sl, fp, ip, lr, pc}
 	sub	fp, ip, #4
 	sub	sp, sp, #8
-	ldr	sl, .L18
-.L17:
+	ldr	sl, .L15
+.L14:
 	add	sl, pc, sl
 	str	r0, [fp, #-24]
 	mov	r3, #0
@@ -74,7 +74,7 @@ TrainSwitchStatusBootstrap:
 .L11:
 	ldr	r1, [fp, #-20]
 	ldr	r2, [fp, #-24]
-	mov	r3, #0
+	mov	r3, #1
 	strb	r3, [r2, r1]
 	ldr	r3, [fp, #-20]
 	add	r3, r3, #1
@@ -83,35 +83,31 @@ TrainSwitchStatusBootstrap:
 	ldr	r3, [fp, #-20]
 	cmp	r3, #18
 	ble	.L11
-	b	.L13
-.L14:
-	ldr	r1, [fp, #-20]
-	ldr	r3, [fp, #-24]
-	mov	r2, #16
-	add	r3, r1, r3
-	add	r2, r3, r2
+	ldr	r2, [fp, #-24]
+	mov	r3, #1
+	strb	r3, [r2, #20]
+	ldr	r2, [fp, #-24]
 	mov	r3, #0
-	strb	r3, [r2, #3]
-	ldr	r3, [fp, #-20]
-	add	r3, r3, #1
-	str	r3, [fp, #-20]
-.L13:
-	ldr	r3, [fp, #-20]
-	cmp	r3, #4
-	ble	.L14
+	strb	r3, [r2, #21]
+	ldr	r2, [fp, #-24]
+	mov	r3, #1
+	strb	r3, [r2, #22]
+	ldr	r2, [fp, #-24]
+	mov	r3, #0
+	strb	r3, [r2, #23]
 	ldr	r2, [fp, #-24]
 	mov	r3, #1
 	str	r3, [r2, #24]
-	ldr	r3, .L18+4
+	ldr	r3, .L15+4
 	ldr	r2, [sl, r3]
 	ldr	r3, [fp, #-24]
 	str	r3, [r2, #0]
 	sub	sp, fp, #16
 	ldmfd	sp, {sl, fp, sp, pc}
-.L19:
+.L16:
 	.align	2
-.L18:
-	.word	_GLOBAL_OFFSET_TABLE_-(.L17+8)
+.L15:
+	.word	_GLOBAL_OFFSET_TABLE_-(.L14+8)
 	.word	_trainSwitchStatus(GOT)
 	.size	TrainSwitchStatusBootstrap, .-TrainSwitchStatusBootstrap
 	.align	2
@@ -175,7 +171,7 @@ setSwitchStatus:
 	str	r2, [r3, #24]
 	ldr	r3, [fp, #-20]
 	cmp	r3, #99
-	ble	.L25
+	ble	.L22
 	ldr	r3, [fp, #-20]
 	sub	r1, r3, #152
 	ldr	r3, [fp, #-24]
@@ -186,14 +182,14 @@ setSwitchStatus:
 	add	r2, r3, r2
 	mov	r3, r0
 	strb	r3, [r2, #3]
-	b	.L28
-.L25:
+	b	.L25
+.L22:
 	ldr	r1, [fp, #-20]
 	ldr	r3, [fp, #-24]
 	and	r3, r3, #255
 	ldr	r2, [fp, #-16]
 	strb	r3, [r2, r1]
-.L28:
+.L25:
 	sub	sp, fp, #12
 	ldmfd	sp, {fp, sp, pc}
 	.size	setSwitchStatus, .-setSwitchStatus
@@ -211,7 +207,7 @@ readSwitchStatus:
 	str	r1, [fp, #-20]
 	ldr	r3, [fp, #-20]
 	cmp	r3, #99
-	ble	.L30
+	ble	.L27
 	ldr	r3, [fp, #-20]
 	sub	r1, r3, #152
 	ldr	r3, [fp, #-16]
@@ -220,13 +216,13 @@ readSwitchStatus:
 	add	r3, r3, r2
 	ldrb	r3, [r3, #3]	@ zero_extendqisi2
 	str	r3, [fp, #-24]
-	b	.L32
-.L30:
+	b	.L29
+.L27:
 	ldr	r3, [fp, #-20]
 	ldr	r2, [fp, #-16]
 	ldrb	r3, [r2, r3]	@ zero_extendqisi2
 	str	r3, [fp, #-24]
-.L32:
+.L29:
 	ldr	r3, [fp, #-24]
 	mov	r0, r3
 	sub	sp, fp, #12
@@ -241,18 +237,18 @@ getTrainSpeed:
 	mov	ip, sp
 	stmfd	sp!, {sl, fp, ip, lr, pc}
 	sub	fp, ip, #4
-	ldr	sl, .L37
-.L36:
+	ldr	sl, .L34
+.L33:
 	add	sl, pc, sl
-	ldr	r3, .L37+4
+	ldr	r3, .L34+4
 	ldr	r3, [sl, r3]
 	ldr	r3, [r3, #0]
 	mov	r0, r3
 	ldmfd	sp, {sl, fp, sp, pc}
-.L38:
+.L35:
 	.align	2
-.L37:
-	.word	_GLOBAL_OFFSET_TABLE_-(.L36+8)
+.L34:
+	.word	_GLOBAL_OFFSET_TABLE_-(.L33+8)
 	.word	_trainSpeed(GOT)
 	.size	getTrainSpeed, .-getTrainSpeed
 	.align	2
@@ -264,18 +260,18 @@ getTrainSwitchStatus:
 	mov	ip, sp
 	stmfd	sp!, {sl, fp, ip, lr, pc}
 	sub	fp, ip, #4
-	ldr	sl, .L42
-.L41:
+	ldr	sl, .L39
+.L38:
 	add	sl, pc, sl
-	ldr	r3, .L42+4
+	ldr	r3, .L39+4
 	ldr	r3, [sl, r3]
 	ldr	r3, [r3, #0]
 	mov	r0, r3
 	ldmfd	sp, {sl, fp, sp, pc}
-.L43:
+.L40:
 	.align	2
-.L42:
-	.word	_GLOBAL_OFFSET_TABLE_-(.L41+8)
+.L39:
+	.word	_GLOBAL_OFFSET_TABLE_-(.L38+8)
 	.word	_trainSwitchStatus(GOT)
 	.size	getTrainSwitchStatus, .-getTrainSwitchStatus
 	.ident	"GCC: (GNU) 4.0.2"

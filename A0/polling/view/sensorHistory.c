@@ -6,6 +6,9 @@
 
 #define SENSOR_HISTORY_MAX 10
 
+unsigned int tmpTime = 0;
+int result = 0;
+
 void initSensorHistory(struct SensorHistory *sHistory, struct BaseIO *baseIO, int left, int top) {
 	sHistory->baseIO = baseIO;
 	sHistory->left = left;
@@ -54,6 +57,7 @@ void sensorHistoryPrint(struct SensorHistory *sHistory) {
 int sensorHistoryHeartBeat(struct SensorHistory *sHistory) {
 	if(sHistory->isIdle) {
 		if(getTime() > sHistory->nextUpdateTime) {
+			tmpTime = getTime();;
 			sHistory->isIdle = 0;
 			struct TrainCmd trainCmd;
 			trainCmd.type = CHECK_SENSOR;
@@ -66,6 +70,10 @@ int sensorHistoryHeartBeat(struct SensorHistory *sHistory) {
 		}
 	} else {
 		if(((sHistory->data[sHistory->current]).buffer)[5] == 0x1) {
+
+				baseIOprintf(sHistory->baseIO, "\n\rsensor: %d  ", getTime() - tmpTime);
+
+
 			int dirty = 0;
 			//baseIOprintf(sHistory->baseIO, "%x\n\r", 10);
 			/*baseIOprintf(sHistory->baseIO, "\n\r%d,\n\r%d,\n\r%d,\n\r%d,\n\r%d\n\r", 

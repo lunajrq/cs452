@@ -44,11 +44,42 @@ int main( int argc, char* argv[] ) {
 		pushTrainCmd(&trainIO, &cmd);
 	}
 
+	struct TrainCmd cmd;
+	cmd.type = SET_SWITCH;
+	cmd.arg1 = 153;
+	cmd.arg2 = 1;
+	pushTrainCmd(&trainIO, &cmd);
+
+
+	cmd.type = SET_SWITCH;
+	cmd.arg1 = 154;
+	cmd.arg2 = 0;
+	pushTrainCmd(&trainIO, &cmd);
+
+
+	cmd.type = SET_SWITCH;
+	cmd.arg1 = 155;
+	cmd.arg2 = 1;
+	pushTrainCmd(&trainIO, &cmd);
+
+	cmd.type = SET_SWITCH;
+	cmd.arg1 = 156;
+	cmd.arg2 = 0;
+	pushTrainCmd(&trainIO, &cmd);
+
+	unsigned int currentTIme = 0;
+	int timeInterval = 0;
+	unsigned int maxInterval = 0;
+	unsigned int minInterval = 0xFFFF;
+	unsigned int refresh = 0;
 
 	FOREVER {
 		if(getTimerTick() == 1) {
 			//continue;
 		}
+		if(refresh != getTime()/1000) currentTIme = *((unsigned int *)(TIMER3_BASE + VAL_OFFSET));
+		
+
 
 		if(buffer2port(&COM2IO) == 1) ;//continue;
 		if(port2buffer(&COM2IO) == 1) ;//continue;
@@ -59,6 +90,12 @@ int main( int argc, char* argv[] ) {
 		UIHeartBeat(&ui);
 		trainIOHeartBeat(&trainIO);
 		int commandResult = commandHandlerHeartBeat(&cHandler);
+		if(refresh != getTime()/1000) timeInterval = currentTIme - *((unsigned int *)(TIMER3_BASE + VAL_OFFSET));
+		if(refresh != getTime()/1000) if(timeInterval < 0) timeInterval += 508;
+		if(refresh != getTime()/1000) if(timeInterval >  maxInterval) maxInterval = timeInterval;
+		if(refresh != getTime()/1000) if(timeInterval <  minInterval) minInterval = timeInterval;
+		if(refresh != getTime()/1000) baseIOprintf(&COM2IO, "\n\r%d\n\r%d \n\r%d", timeInterval, maxInterval, minInterval);
+if(refresh != getTime()/1000) refresh = getTime() / 1000;
 		if(commandResult == -2) break;
 	}
 

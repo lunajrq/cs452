@@ -38,124 +38,127 @@ data            0x0000000000000000        0x0
  *(.data)
                 0x0000000000000000                _DataEnd = .
 
-bss             0x0000000000000000       0x24
+bss             0x0000000000000000       0x2c
                 0x0000000000000000                _BssStart = .
  *(.bss)
- .bss           0x0000000000000000        0x4 ../lib/libtrainIO.a(trainIO.o)
-                0x0000000000000000                _trainIO
- .bss           0x0000000000000004        0x4 ../lib/libcommandHandler.a(commandHandler.o)
-                0x0000000000000004                commandHandler
- .bss           0x0000000000000008        0x8 ../lib/libtrainStatus.a(trainStatus.o)
-                0x0000000000000008                _trainSpeed
-                0x000000000000000c                _trainSwitchStatus
- .bss           0x0000000000000010        0x8 ../lib/libbaseIO.a(baseIO.o)
-                0x0000000000000014                COM2IO
-                0x0000000000000010                COM1IO
- .bss           0x0000000000000018        0xc ../lib/libtimer.a(timer.o)
-                0x000000000000001c                _then
-                0x0000000000000020                _now
-                0x0000000000000018                _timerTick
-                0x0000000000000024                _BssEnd = .
+ .bss           0x0000000000000000        0x8 ../lib/libsensorHistory.a(sensorHistory.o)
+                0x0000000000000000                tmpTime
+                0x0000000000000004                result
+ .bss           0x0000000000000008        0x4 ../lib/libtrainIO.a(trainIO.o)
+                0x0000000000000008                _trainIO
+ .bss           0x000000000000000c        0x4 ../lib/libcommandHandler.a(commandHandler.o)
+                0x000000000000000c                commandHandler
+ .bss           0x0000000000000010        0x8 ../lib/libtrainStatus.a(trainStatus.o)
+                0x0000000000000010                _trainSpeed
+                0x0000000000000014                _trainSwitchStatus
+ .bss           0x0000000000000018        0x8 ../lib/libbaseIO.a(baseIO.o)
+                0x000000000000001c                COM2IO
+                0x0000000000000018                COM1IO
+ .bss           0x0000000000000020        0xc ../lib/libtimer.a(timer.o)
+                0x0000000000000024                _then
+                0x0000000000000028                _now
+                0x0000000000000020                _timerTick
+                0x000000000000002c                _BssEnd = .
 
-text            0x0000000000000024     0x3ac4
+text            0x000000000000002c     0x3dd4
  *(.text)
- .text          0x0000000000000024      0x1dc pollingCycle.o
-                0x0000000000000024                main
- .text          0x0000000000000200      0x158 ../lib/libUI.a(UI.o)
-                0x000000000000029c                UIHeartBeat
-                0x0000000000000200                initUI
- .text          0x0000000000000358      0x698 ../lib/libsensorHistory.a(sensorHistory.o)
-                0x00000000000004ac                sensorHistoryPushHistory
-                0x00000000000006a4                sensorHistoryHeartBeat
-                0x0000000000000358                initSensorHistory
-                0x000000000000059c                sensorHistoryPrint
- .text          0x00000000000009f0      0x4d4 ../lib/libcommandPrompt.a(commandPrompt.o)
-                0x0000000000000e4c                repositionCursor
-                0x0000000000000b10                initCommandPrompt
-                0x0000000000000ab4                commandStrPop
-                0x0000000000000bf4                commandPromptHeartBeat
-                0x00000000000009f0                initCommandStr
-                0x0000000000000a2c                commandStrPush
- .text          0x0000000000000ec4      0x1e8 ../lib/libclock.a(clock.o)
-                0x0000000000000f1c                clockHeartBeat
-                0x0000000000000ec4                initClock
- .text          0x00000000000010ac      0x278 ../lib/libswitchTable.a(switchTable.o)
-                0x00000000000010f8                switchTableHeartBeat
-                0x00000000000010ac                initSwitchTable
- .text          0x0000000000001324      0x89c ../lib/libtrainIO.a(trainIO.o)
-                0x0000000000001610                sendSetTrainReverseDirection
-                0x00000000000017ec                sendTrainCmd
-                0x000000000000173c                sendReadSensor
-                0x0000000000001508                sendSetTrainSpeed
-                0x0000000000001914                trainIOHeartBeat
-                0x0000000000001b90                getTrainIO
-                0x00000000000016a8                sendSetSwitch
-                0x0000000000001324                trainIOBootstrap
-                0x00000000000013dc                pushTrainCmd
-                0x0000000000001568                sendSetTrainReverse
- .text          0x0000000000001bc0      0x624 ../lib/libcommandHandler.a(commandHandler.o)
-                0x00000000000021b4                getCommandHandler
-                0x0000000000001c98                parseInt
-                0x0000000000001c54                commandHandlerBootstrap
-                0x0000000000002174                commandHandlerSetCommand
-                0x0000000000001da4                commandHandlerHeartBeat
-                0x0000000000001bc0                strCpy
- .text          0x00000000000021e4      0x2dc ../lib/libtrainStatus.a(trainStatus.o)
-                0x0000000000002308                setTrainSpeed
-                0x0000000000002254                TrainSwitchStatusBootstrap
-                0x000000000000233c                readTrainSpeed
-                0x00000000000023f8                readSwitchStatus
-                0x000000000000237c                setSwitchStatus
-                0x00000000000021e4                trainSpeedBootstrap
-                0x0000000000002490                getTrainSwitchStatus
-                0x0000000000002460                getTrainSpeed
- .text          0x00000000000024c0     0x11e8 ../lib/libbaseIO.a(baseIO.o)
-                0x0000000000002b14                readChar
-                0x00000000000024c0                baseIOsetfifo
-                0x000000000000339c                baseIOformat
-                0x0000000000003130                baseIOa2i
-                0x0000000000002694                baseIOBootstrap
-                0x0000000000003338                baseIOi2a
-                0x0000000000002e84                baseIOputr
-                0x000000000000293c                getBaseIO
-                0x0000000000002e04                baseIOputx
-                0x0000000000002a70                writeStr
-                0x0000000000003670                baseIOprintf
-                0x0000000000003088                baseIOa2d
-                0x0000000000002f04                baseIOputstr
-                0x0000000000002da4                c2x
-                0x00000000000029bc                writeChar
-                0x0000000000002f80                baseIOputw
-                0x0000000000002bc8                buffer2port
-                0x0000000000002ccc                port2buffer
-                0x0000000000002588                baseIOsetspeed
-                0x00000000000031f4                baseIOui2a
- .text          0x00000000000036a8      0x17c ../lib/libtimer.a(timer.o)
-                0x0000000000003728                getTimerTick
-                0x00000000000037f4                getTime
-                0x00000000000036a8                timerBootstrap
- .text          0x0000000000003824      0x110 /u/wbcowan/gnuarm-4.0.2/lib/gcc/arm-elf/4.0.2/libgcc.a(_udivsi3.o)
-                0x0000000000003824                __udivsi3
-                0x000000000000391c                __aeabi_uidivmod
- .text          0x0000000000003934       0xcc /u/wbcowan/gnuarm-4.0.2/lib/gcc/arm-elf/4.0.2/libgcc.a(_umodsi3.o)
-                0x0000000000003934                __umodsi3
- .text          0x0000000000003a00        0x4 /u/wbcowan/gnuarm-4.0.2/lib/gcc/arm-elf/4.0.2/libgcc.a(_dvmd_tls.o)
-                0x0000000000003a00                __aeabi_ldiv0
-                0x0000000000003a00                __div0
-                0x0000000000003a00                __aeabi_idiv0
+ .text          0x000000000000002c      0x474 pollingCycle.o
+                0x000000000000002c                main
+ .text          0x00000000000004a0      0x158 ../lib/libUI.a(UI.o)
+                0x000000000000053c                UIHeartBeat
+                0x00000000000004a0                initUI
+ .text          0x00000000000005f8      0x6f4 ../lib/libsensorHistory.a(sensorHistory.o)
+                0x000000000000074c                sensorHistoryPushHistory
+                0x0000000000000944                sensorHistoryHeartBeat
+                0x00000000000005f8                initSensorHistory
+                0x000000000000083c                sensorHistoryPrint
+ .text          0x0000000000000cec      0x4d4 ../lib/libcommandPrompt.a(commandPrompt.o)
+                0x0000000000001148                repositionCursor
+                0x0000000000000e0c                initCommandPrompt
+                0x0000000000000db0                commandStrPop
+                0x0000000000000ef0                commandPromptHeartBeat
+                0x0000000000000cec                initCommandStr
+                0x0000000000000d28                commandStrPush
+ .text          0x00000000000011c0      0x1e8 ../lib/libclock.a(clock.o)
+                0x0000000000001218                clockHeartBeat
+                0x00000000000011c0                initClock
+ .text          0x00000000000013a8      0x278 ../lib/libswitchTable.a(switchTable.o)
+                0x00000000000013f4                switchTableHeartBeat
+                0x00000000000013a8                initSwitchTable
+ .text          0x0000000000001620      0x89c ../lib/libtrainIO.a(trainIO.o)
+                0x000000000000190c                sendSetTrainReverseDirection
+                0x0000000000001ae8                sendTrainCmd
+                0x0000000000001a38                sendReadSensor
+                0x0000000000001804                sendSetTrainSpeed
+                0x0000000000001c10                trainIOHeartBeat
+                0x0000000000001e8c                getTrainIO
+                0x00000000000019a4                sendSetSwitch
+                0x0000000000001620                trainIOBootstrap
+                0x00000000000016d8                pushTrainCmd
+                0x0000000000001864                sendSetTrainReverse
+ .text          0x0000000000001ebc      0x624 ../lib/libcommandHandler.a(commandHandler.o)
+                0x00000000000024b0                getCommandHandler
+                0x0000000000001f94                parseInt
+                0x0000000000001f50                commandHandlerBootstrap
+                0x0000000000002470                commandHandlerSetCommand
+                0x00000000000020a0                commandHandlerHeartBeat
+                0x0000000000001ebc                strCpy
+ .text          0x00000000000024e0      0x2d4 ../lib/libtrainStatus.a(trainStatus.o)
+                0x00000000000025fc                setTrainSpeed
+                0x0000000000002550                TrainSwitchStatusBootstrap
+                0x0000000000002630                readTrainSpeed
+                0x00000000000026ec                readSwitchStatus
+                0x0000000000002670                setSwitchStatus
+                0x00000000000024e0                trainSpeedBootstrap
+                0x0000000000002784                getTrainSwitchStatus
+                0x0000000000002754                getTrainSpeed
+ .text          0x00000000000027b4     0x11e8 ../lib/libbaseIO.a(baseIO.o)
+                0x0000000000002e08                readChar
+                0x00000000000027b4                baseIOsetfifo
+                0x0000000000003690                baseIOformat
+                0x0000000000003424                baseIOa2i
+                0x0000000000002988                baseIOBootstrap
+                0x000000000000362c                baseIOi2a
+                0x0000000000003178                baseIOputr
+                0x0000000000002c30                getBaseIO
+                0x00000000000030f8                baseIOputx
+                0x0000000000002d64                writeStr
+                0x0000000000003964                baseIOprintf
+                0x000000000000337c                baseIOa2d
+                0x00000000000031f8                baseIOputstr
+                0x0000000000003098                c2x
+                0x0000000000002cb0                writeChar
+                0x0000000000003274                baseIOputw
+                0x0000000000002ebc                buffer2port
+                0x0000000000002fc0                port2buffer
+                0x000000000000287c                baseIOsetspeed
+                0x00000000000034e8                baseIOui2a
+ .text          0x000000000000399c      0x17c ../lib/libtimer.a(timer.o)
+                0x0000000000003a1c                getTimerTick
+                0x0000000000003ae8                getTime
+                0x000000000000399c                timerBootstrap
+ .text          0x0000000000003b18      0x110 /u/wbcowan/gnuarm-4.0.2/lib/gcc/arm-elf/4.0.2/libgcc.a(_udivsi3.o)
+                0x0000000000003b18                __udivsi3
+                0x0000000000003c10                __aeabi_uidivmod
+ .text          0x0000000000003c28       0xcc /u/wbcowan/gnuarm-4.0.2/lib/gcc/arm-elf/4.0.2/libgcc.a(_umodsi3.o)
+                0x0000000000003c28                __umodsi3
+ .text          0x0000000000003cf4        0x4 /u/wbcowan/gnuarm-4.0.2/lib/gcc/arm-elf/4.0.2/libgcc.a(_dvmd_tls.o)
+                0x0000000000003cf4                __aeabi_ldiv0
+                0x0000000000003cf4                __div0
+                0x0000000000003cf4                __aeabi_idiv0
  *(.got)
- .got           0x0000000000003a04       0x24 pollingCycle.o
+ .got           0x0000000000003cf8       0x28 pollingCycle.o
  *(.got.plt)
- .got.plt       0x0000000000003a28        0xc pollingCycle.o
-                0x0000000000003a28                _GLOBAL_OFFSET_TABLE_
+ .got.plt       0x0000000000003d20        0xc pollingCycle.o
+                0x0000000000003d20                _GLOBAL_OFFSET_TABLE_
  *(.rodata)
- .rodata        0x0000000000003a34        0xc pollingCycle.o
- .rodata        0x0000000000003a40       0x14 ../lib/libsensorHistory.a(sensorHistory.o)
- .rodata        0x0000000000003a54       0x10 ../lib/libcommandPrompt.a(commandPrompt.o)
- .rodata        0x0000000000003a64       0x24 ../lib/libclock.a(clock.o)
- .rodata        0x0000000000003a88       0x48 ../lib/libswitchTable.a(switchTable.o)
- .rodata        0x0000000000003ad0        0xc ../lib/libtrainIO.a(trainIO.o)
- .rodata        0x0000000000003adc        0xc ../lib/libcommandHandler.a(commandHandler.o)
+ .rodata        0x0000000000003d2c       0x1c pollingCycle.o
+ .rodata        0x0000000000003d48       0x24 ../lib/libsensorHistory.a(sensorHistory.o)
+ .rodata        0x0000000000003d6c       0x10 ../lib/libcommandPrompt.a(commandPrompt.o)
+ .rodata        0x0000000000003d7c       0x24 ../lib/libclock.a(clock.o)
+ .rodata        0x0000000000003da0       0x48 ../lib/libswitchTable.a(switchTable.o)
+ .rodata        0x0000000000003de8        0xc ../lib/libtrainIO.a(trainIO.o)
+ .rodata        0x0000000000003df4        0xc ../lib/libcommandHandler.a(commandHandler.o)
  *(.glue_7)
  *(.glue_7t)
 

@@ -16,8 +16,12 @@ void trainSpeedBootstrap(struct TrainSpeed *trainSpeed) {
 
 void TrainSwitchStatusBootstrap(struct TrainSwitchStatus *trainSwitchStatus) {
 	int i = 0;
-	for(;i <= SINGLE_SWITCH_NUM_MAX; i++) trainSwitchStatus->singleSwitchStatus[i] = 0;
-	for(;i <= DOUBLE_SWITCH_NUM_MAX; i++) trainSwitchStatus->doubleSwitchStatus[i] = 0;
+	for(;i <= SINGLE_SWITCH_NUM_MAX; i++) trainSwitchStatus->singleSwitchStatus[i] = 1;
+	trainSwitchStatus->doubleSwitchStatus[1] = 1;
+	trainSwitchStatus->doubleSwitchStatus[2] = 0;
+	trainSwitchStatus->doubleSwitchStatus[3] = 1;
+	trainSwitchStatus->doubleSwitchStatus[4] = 0;
+
 	trainSwitchStatus->dirty = 1;
 
 	_trainSwitchStatus = trainSwitchStatus;
